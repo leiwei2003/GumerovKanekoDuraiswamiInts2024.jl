@@ -6,34 +6,34 @@ function I0(P, h1, h2, h3, h4)
     hh1 = hh - h1 * h1
     zero2 = zerotol * zerotol
 
-    if hh < zero2 * P * P
-        Phi1 = log(P) / P
+    if hh < zero2 * P * P # if h1 = h2 = h3 = h4 = 0 -> exception: handle like case 1 using special Phi1
+        Phi1 = log(P) / P # approximation of Phi1 as P/h approaches infinity
         I = Phi1 / 6
     else
         Phi1 = 0.5 * log((P + R) * (P + R) / hh) / P
-        if hh1 < zero2 * hh
-            I = Phi1 / 6
+        if hh1 < zero2 * hh # if h2 = h3 = h4 = 0 -> Case 1
+            I = Phi1 / 6 # Case 1
         else
-            if h3 * h3 + h4 * h4 < zero2 * hh
+            if h3 * h3 + h4 * h4 < zero2 * hh # if h3 = h4 = 0 -> Case 2 or 3
                 if h1 * P == 0
-                    Phi2 = 1 / (hh + h2 * R)
+                    Phi2 = 1 / (hh + h2 * R) # for case 2 (h1 = 0)
                 else
-                    Phi2 = atan(h1 * P / (hh + h2 * R)) / (h1 * P)
+                    Phi2 = atan(h1 * P / (hh + h2 * R)) / (h1 * P) # for case 3
                 end
-                I = (Phi1 - h2 * Phi2) / 6
+                I = (Phi1 - h2 * Phi2) / 6 # Cases 2 & 3
             else
                 R1 = sqrt(P * P + h1 * h1)
-                if h2 * h2 + h4 * h4 < zero2 * hh
+                if h2 * h2 + h4 * h4 < zero2 * hh # if h2 = h4 = 0 -> Case 4
                     if h1 * P < zerotol
-                        Phi2 = 1 / (hh + h3 * R)
+                        Phi2 = 1 / (hh + h3 * R) # approximation of term below to avoid division by 0
                     else
                         Phi2 = atan(h1 * P / (hh + h3 * R)) / (h1 * P)
                     end
                     Phi3 = 0.5 * hh1 / R1 * log((R1 + R) * (R1 + R) / hh1)
-                    I = ((h1 * h1 - h3 * h3) * Phi1 - 2 * h1 * h1 * h3 * Phi2 + Phi3) / (6 * h1 * h1)
-                elseif h2 * h2 + h3 * h3 < zero2 * hh
+                    I = ((h1 * h1 - h3 * h3) * Phi1 - 2 * h1 * h1 * h3 * Phi2 + Phi3) / (6 * h1 * h1) # Case 4
+                elseif h2 * h2 + h3 * h3 < zero2 * hh # if h2 = h3 = 0 -> Case 6
                     if h1 * P < zerotol
-                        Phi2 = 1 / (hh + h4 * R)
+                        Phi2 = 1 / (hh + h4 * R) # approximation of term below to avoid division by 0
                     else
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
                     end
@@ -42,13 +42,13 @@ function I0(P, h1, h2, h3, h4)
                         (
                             (h1 * h1 - 3 * h4 * h4) * Phi1 - h4 * (3 * h1 * h1 - h4 * h4) * Phi2 + 3 * h4 * h4 * Phi3 -
                             h4 * h4 / (R + h4)
-                        ) / (6 * h1 * h1)
-                elseif h1 * h1 + h4 * h4 < zero2 * hh
+                        ) / (6 * h1 * h1) # Case 6
+                elseif h1 * h1 + h4 * h4 < zero2 * hh # if h1 = h4 = 0 -> Case 5
                     h = sqrt(hh)
                     R2 = sqrt(P * P + h2 * h2)
                     Phi4 = h3 * h3 / (h2 * P * P) * ((R2 / h2 * log((R2 + R) / h3) - log((h2 + h) / h3)))
-                    I = (hh / (h2 * h2) * Phi1 - 1 / (R + h) - Phi4) / 6
-                elseif h1 * h1 + h3 * h3 < zero2 * hh
+                    I = (hh / (h2 * h2) * Phi1 - 1 / (R + h) - Phi4) / 6 # Case 5
+                elseif h1 * h1 + h3 * h3 < zero2 * hh # if h1 = h3 = 0 -> Case 7
                     h = sqrt(hh)
                     R2 = sqrt(P * P + h2 * h2)
                     Phi2 = atan(h2 * P / (hh + h4 * R)) / P
@@ -57,9 +57,9 @@ function I0(P, h1, h2, h3, h4)
                         (
                             (1 + 3 * h4 * h4 / (h2 * h2)) * Phi1 - 2 * (h4 / h2)^3 * Phi2 - 3 * Phi4 +
                             (2 * h4 * h4 - h2 * h2) / (h2 * h2 * (R + h))
-                        ) / 6
+                        ) / 6 # Case 7
                 else
-                    I = 0
+                    I = 0 # in case of an error
                 end
             end
         end

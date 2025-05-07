@@ -56,7 +56,7 @@ function GSorthogonalization_expan(e, a)
     end
 
     #find h
-    sum_term = zeros(T, 3) #same as above, 3D space so vector u have 3 elements
+    sum_term = zeros(T, 3) #same as above, 3D space so vector u has 3 elements
     for i in 1:n
         sum_term += s[i] * a[i]
     end

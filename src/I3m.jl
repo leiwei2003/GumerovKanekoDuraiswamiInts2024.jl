@@ -1,5 +1,5 @@
 function I3m(e, a, h4)
-    #Find 3D integral from 3D domian boundaries(2D integrals)
+    #Find 3D integral from 3D domian boundaries (2D integrals)
     #the 3D shapes are prisms; The a passed down here should have 3 vectors
 
     T = eltype(e)

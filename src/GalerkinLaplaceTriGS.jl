@@ -88,7 +88,7 @@ function GalerkinLaplaceTriGS(x1, x2, x3, y1, y2, y3; L_output=1, Md_output=0)
             M = (dot(nx, Fy) - nxy * dot(ny, Fx)) / (nxy^2 - 1) #may not work but worked fine till now
         else
             #degenerate case
-            delta = -dot(e4, nx)#singed distance between planes
+            delta = -dot(e4, nx) #singed distance between planes
 
             if h4 <= zerotol
                 M = T(0.0)
