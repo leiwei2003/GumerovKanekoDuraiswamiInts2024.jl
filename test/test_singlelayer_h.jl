@@ -1,5 +1,9 @@
 # test that are currecntly still problematic
 
+using CompScienceMeshes
+using GumerovKanekoDuraiswamiInts2024
+using LinearAlgebra
+using Test
 using StaticArrays
 
 vts1 = [SVector(0.001, 0.01, 0.0), SVector(0.002, 0.01, 0.0), SVector(0.001, 0.01, 0.001)]
