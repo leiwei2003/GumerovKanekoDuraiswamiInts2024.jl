@@ -25,15 +25,19 @@ function I0(P, h1, h2, h3, h4)
                 R1 = sqrt(P * P + h1 * h1)
                 if h2 * h2 + h4 * h4 < zero2 * hh # if h2 = h4 = 0 -> Case 4
                     if h1 * P < zerotol
-                        Phi2 = 1 / (hh + h3 * R) # approximation of term below to avoid division by 0
+                        Phi2 = 1 / (hh + h3 * R) # catch P = 0
                     else
                         Phi2 = atan(h1 * P / (hh + h3 * R)) / (h1 * P)
                     end
-                    Phi3 = 0.5 * hh1 / R1 * log((R1 + R) * (R1 + R) / hh1)
-                    I = ((h1 * h1 - h3 * h3) * Phi1 - 2 * h1 * h1 * h3 * Phi2 + Phi3) / (6 * h1 * h1) # Case 4
+                    if h1 < zerotol # catch h1 = 0
+                        I = (Phi1 - 2 / (h3 + R)) / 6 # approximation of term below as h1 approaches 0
+                    else
+                        Phi3 = 0.5 * hh1 / R1 * log((R1 + R) * (R1 + R) / hh1)
+                        I = ((h1 * h1 - h3 * h3) * Phi1 - 2 * h1 * h1 * h3 * Phi2 + Phi3) / (6 * h1 * h1) # Case 4
+                    end
                 elseif h2 * h2 + h3 * h3 < zero2 * hh # if h2 = h3 = 0 -> Case 6
                     if h1 * P < zerotol
-                        Phi2 = 1 / (hh + h4 * R) # approximation of term below to avoid division by 0
+                        Phi2 = 1 / (hh + h4 * R) # catch P = 0
                     else
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
                     end
@@ -46,7 +50,11 @@ function I0(P, h1, h2, h3, h4)
                 elseif h1 * h1 + h4 * h4 < zero2 * hh # if h1 = h4 = 0 -> Case 5
                     h = sqrt(hh)
                     R2 = sqrt(P * P + h2 * h2)
-                    Phi4 = h3 * h3 / (h2 * P * P) * ((R2 / h2 * log((R2 + R) / h3) - log((h2 + h) / h3)))
+                    if h3 < zerotol
+                        Phi4 = 0 # catch h3 = 0
+                    else
+                        Phi4 = h3 * h3 / (h2 * P * P) * ((R2 / h2 * log((R2 + R) / h3) - log((h2 + h) / h3)))
+                    end
                     I = (hh / (h2 * h2) * Phi1 - 1 / (R + h) - Phi4) / 6 # Case 5
                 elseif h1 * h1 + h3 * h3 < zero2 * hh # if h1 = h3 = 0 -> Case 7
                     h = sqrt(hh)
@@ -59,7 +67,7 @@ function I0(P, h1, h2, h3, h4)
                             (2 * h4 * h4 - h2 * h2) / (h2 * h2 * (R + h))
                         ) / 6 # Case 7
                 else
-                    I = 0 # in case of an error
+                    I = 0 # no case detected
                 end
             end
         end
