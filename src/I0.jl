@@ -30,7 +30,7 @@ function I0(P, h1, h2, h3, h4)
                         Phi2 = atan(h1 * P / (hh + h3 * R)) / (h1 * P)
                     end
                     if h1 < zerotol # catch h1 = 0
-                        I = (Phi1 - 2 / (h3 + R)) / 6 # approximation of term below as h1 approaches 0
+                        I = (Phi1 - 2 / (h3 + R)) / 6 # limit of term below as h1 approaches 0
                     else
                         Phi3 = 0.5 * hh1 / R1 * log((R1 + R) * (R1 + R) / hh1)
                         I = ((h1 * h1 - h3 * h3) * Phi1 - 2 * h1 * h1 * h3 * Phi2 + Phi3) / (6 * h1 * h1) # Case 4
@@ -72,7 +72,12 @@ function I0(P, h1, h2, h3, h4)
             end
         end
     end
-
+    
+    if isnan(I)
+        print([h1, h2, h3, h4])
+     #   error("Failed to calculate integral.")
+    end
+    
     return I
 
 end
