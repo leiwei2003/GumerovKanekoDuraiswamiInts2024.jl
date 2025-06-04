@@ -24,14 +24,14 @@ function I0(P, h1, h2, h3, h4)
             else
                 R1 = sqrt(P * P + h1 * h1)
                 if h2 * h2 + h4 * h4 < zero2 * hh # if h2 = h4 = 0 -> Case 4
-                    if h1 * P < zerotol
-                        Phi2 = 1 / (hh + h3 * R) # catch P = 0
-                    else
-                        Phi2 = atan(h1 * P / (hh + h3 * R)) / (h1 * P)
-                    end
                     if h1 < zerotol # catch h1 = 0
                         I = (Phi1 - 2 / (h3 + R)) / 6 # limit of term below as h1 approaches 0
                     else
+                        if h1 * P < zerotol
+                            Phi2 = 1 / (hh + h3 * R) # catch P = 0
+                        else
+                            Phi2 = atan(h1 * P / (hh + h3 * R)) / (h1 * P)
+                        end
                         Phi3 = 0.5 * hh1 / R1 * log((R1 + R) * (R1 + R) / hh1)
                         I = ((h1 * h1 - h3 * h3) * Phi1 - 2 * h1 * h1 * h3 * Phi2 + Phi3) / (6 * h1 * h1) # Case 4
                     end
