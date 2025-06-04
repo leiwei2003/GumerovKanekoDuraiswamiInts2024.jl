@@ -93,9 +93,9 @@ function GalerkinLaplaceTriGS(x1, x2, x3, y1, y2, y3; L_output=1, Md_output=0)
             if h4 <= zerotol
                 M = T(0.0)
             else
-                I31m = I3m(e31, [a11, a21, a31], h4)
+                I31m = I3m(e31, SVector(a11, a21, a31), h4)
                 I32m = I3m(e32, SVector(a12, a22, a32), h4)
-                I33m = I3m(e33, [a13, a23, a33], h4)
+                I33m = I3m(e33, SVector(a13, a23, a33), h4)
                 I34m = I3m(e34, SVector(a14, a24, a34), h4)
                 I35m = I3m(e35, SVector(a15, a25, a35), h4)
                 I36m = I3m(e36, SVector(a16, a26, a36), h4)

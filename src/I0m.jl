@@ -3,7 +3,7 @@ function I0m(P, h1, h2, h3, h4)
 
     # The double layer integrals can be computed using only the cases where h4 =/= 0.
     # Therefore, only cases 6 and 7 need implementation below.
-    # Since h4 is not assumed to be 0, it follows that h3 = 0 always. 
+    # Since h4 is different from 0, it follows that h3 = 0 always. 
 
     zero2 = zerotol^2
     hh = h1^2 + h2^2 + h4^2
@@ -11,7 +11,7 @@ function I0m(P, h1, h2, h3, h4)
     Phi1 = 0.5 * log((P + R) * (P + R) / hh) / P
     R1 = sqrt(P * P + h1 * h1)
 
-    I = 0.0 # default, if h4 = 0
+    I = 0.0
 
     if h2 * h2 < zero2 * hh # if h2 = 0 -> Case 6
         if P < zerotol
