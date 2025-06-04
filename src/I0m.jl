@@ -11,9 +11,9 @@ function I0m(P, h1, h2, h3, h4)
     Phi1 = 0.5 * log((P + R) * (P + R) / hh) / P
     R1 = sqrt(P * P + h1 * h1)
 
-    I = 0.0
-
-    if h2 * h2 < zero2 * hh # if h2 = 0 -> Case 6
+    if hh - h4^2 < zero2 # if h1 = h2 = 0
+        I = 0.0 # based on the limit of case 6 as h1 approaches 0
+    elseif h2 * h2 < zero2 * hh # if h2 = 0 -> Case 6
         if P < zerotol
             Phi2 = h1 / (hh + h4 * R)
         else
