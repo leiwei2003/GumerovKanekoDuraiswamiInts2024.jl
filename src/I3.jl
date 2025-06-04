@@ -6,7 +6,7 @@ function I3(e, a, h4)
     #find h3 and s0
     h3, s0 = GSorthogonalization_expan(e, a)
 
-    #Define parmeters of the 2D integrals
+    #Define parameters of the 2D integrals
     a11 = a[1] - a[2]
     a21 = a22 = a23 = a[3]
     a12 = a24 = a25 = a[2]

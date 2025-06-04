@@ -6,7 +6,7 @@ function I2s(e, a, h3, h4)
     #find parameters h2 and s0
     h2, s0 = GSorthogonalization_expan(e, a)
 
-    #Define parmeters of the 1D integrals
+    #Define parameters of the 1D integrals
     a11 = a12 = a[2]
     a13 = a14 = a[1]
     e12 = e14 = a[1] * s0[1] + a[2] * s0[2]

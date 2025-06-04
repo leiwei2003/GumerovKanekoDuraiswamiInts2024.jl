@@ -8,7 +8,7 @@ function I2tm(e, a, h3, h4)
     #find parameters h2 and 
     h2, s0 = GSorthogonalization_expan(e, a)
 
-    #Define parmeters of the 1D integrals
+    #Define parameters of the 1D integrals
     a12 = a[2]
     a14 = a[1]
     a15 = a[1] - a[2]

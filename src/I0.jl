@@ -6,8 +6,8 @@ function I0(P, h1, h2, h3, h4)
     hh1 = hh - h1 * h1
     zero2 = zerotol * zerotol
 
-    if hh < zero2 * P * P # if h1 = h2 = h3 = h4 = 0 -> exception: handle like case 1 using special Phi1
-        Phi1 = log(P) / P # approximation of Phi1 as P/h approaches infinity
+    if hh < zero2 * P * P # if h1 = h2 = h3 = h4 = 0 -> Case 8 (singularity)
+        Phi1 = log(P) / P
         I = Phi1 / 6
     else
         Phi1 = 0.5 * log((P + R) * (P + R) / hh) / P
