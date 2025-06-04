@@ -73,11 +73,6 @@ function I0(P, h1, h2, h3, h4)
         end
     end
     
-    if isnan(I)
-        print([h1, h2, h3, h4])
-     #   error("Failed to calculate integral.")
-    end
-    
     return I
 
 end
