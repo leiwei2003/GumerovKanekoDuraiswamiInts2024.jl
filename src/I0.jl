@@ -44,7 +44,7 @@ function I0(P, h1, h2, h3, h4)
                         Phi4 = h3 * h3 / (h2 * P * P) * ((R2 / h2 * log((R2 + R) / h3) - log((h2 + h) / h3)))
                     end
                     I = (hh / (h2 * h2) * Phi1 - 1 / (R + h) - Phi4) / 6 # Case 5
-                # At this stage h4 is not 0.
+                # At this stage h4 =/= 0 and h3 = 0.
                 # Pick the last case so that one doesn't divide by 0.
                 elseif h1 > 0 # if h2 = h3 = 0 -> Case 6
                     if h1 * P < zerotol
