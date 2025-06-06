@@ -74,12 +74,7 @@ function I0(P, h1, h2, h3, h4)
             end
         end
     end
-    
-    #debugging
-    if I == Inf
-        println("I = ", I, "\nat h = ", [h4,h3,h2,h1])
-    end
-
+ 
     return I
 
 end
