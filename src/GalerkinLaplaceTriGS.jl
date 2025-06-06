@@ -50,9 +50,6 @@ function GalerkinLaplaceTriGS(x1, x2, x3, y1, y2, y3; L_output=1, Md_output=0)
     nxy = dot(nx, ny)
     nxy1 = min(norm(nx + ny), norm(nx - ny))
 
-    # Adjust zero tolerance based on triangle sizes and positions
-    zerotol = zerotol_base * 3 * Ax * Ay / norm(x1 + x2 + x3 - y1 - y2 - y3) #the 3 is to get the midpoints of the triangles
-
     a1 = lx1
     a2 = -lx3
     a3 = -ly1
