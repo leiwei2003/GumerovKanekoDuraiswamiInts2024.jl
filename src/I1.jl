@@ -19,6 +19,11 @@ function I1(e1, a1, h2, h3, h4)::Float64
 
     na1 = norm(a1)
 
+    #debugging
+    if [h4,h3,h2,h1] == [0.1, 0.0, 2.7755575615628914e-17, 0.0]
+        test = 1
+    end
+
     I = T(0)
     P1 = abs(T(1) + s01) * na1
     P2 = abs(s01) * na1

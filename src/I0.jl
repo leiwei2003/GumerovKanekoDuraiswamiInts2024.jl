@@ -35,7 +35,18 @@ function I0(P, h1, h2, h3, h4)
                         Phi3 = 0.5 * hh1 / R1 * log((R1 + R) * (R1 + R) / hh1)
                         I = ((h1 * h1 - h3 * h3) * Phi1 - 2 * h1 * h1 * h3 * Phi2 + Phi3) / (6 * h1 * h1) # Case 4
                     end
-                elseif h2 * h2 + h3 * h3 < zero2 * hh # if h2 = h3 = 0 -> Case 6
+                elseif h1 * h1 + h4 * h4 < zero2 * hh # if h1 = h4 = 0 -> Case 5
+                    h = sqrt(hh)
+                    R2 = sqrt(P * P + h2 * h2)
+                    if h3 < zerotol
+                        Phi4 = 0 # catch h3 = 0
+                    else
+                        Phi4 = h3 * h3 / (h2 * P * P) * ((R2 / h2 * log((R2 + R) / h3) - log((h2 + h) / h3)))
+                    end
+                    I = (hh / (h2 * h2) * Phi1 - 1 / (R + h) - Phi4) / 6 # Case 5
+                # At this stage h4 is not 0.
+                # Pick the last case so that one doesn't divide by 0.
+                elseif h1 > 0 # if h2 = h3 = 0 -> Case 6
                     if h1 * P < zerotol
                         Phi2 = 1 / (hh + h4 * R) # catch P = 0
                     else
@@ -47,16 +58,7 @@ function I0(P, h1, h2, h3, h4)
                             (h1 * h1 - 3 * h4 * h4) * Phi1 - h4 * (3 * h1 * h1 - h4 * h4) * Phi2 + 3 * h4 * h4 * Phi3 -
                             h4 * h4 / (R + h4)
                         ) / (6 * h1 * h1) # Case 6
-                elseif h1 * h1 + h4 * h4 < zero2 * hh # if h1 = h4 = 0 -> Case 5
-                    h = sqrt(hh)
-                    R2 = sqrt(P * P + h2 * h2)
-                    if h3 < zerotol
-                        Phi4 = 0 # catch h3 = 0
-                    else
-                        Phi4 = h3 * h3 / (h2 * P * P) * ((R2 / h2 * log((R2 + R) / h3) - log((h2 + h) / h3)))
-                    end
-                    I = (hh / (h2 * h2) * Phi1 - 1 / (R + h) - Phi4) / 6 # Case 5
-                elseif h1 * h1 + h3 * h3 < zero2 * hh # if h1 = h3 = 0 -> Case 7
+                elseif h2 > 0 # if h1 = h3 = 0 -> Case 7
                     h = sqrt(hh)
                     R2 = sqrt(P * P + h2 * h2)
                     Phi2 = atan(h2 * P / (hh + h4 * R)) / P
@@ -73,6 +75,11 @@ function I0(P, h1, h2, h3, h4)
         end
     end
     
+    #debugging
+    if I == Inf
+        println("I = ", I, "\nat h = ", [h4,h3,h2,h1])
+    end
+
     return I
 
 end
