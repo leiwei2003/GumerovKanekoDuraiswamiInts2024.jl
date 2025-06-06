@@ -6,7 +6,7 @@ using CompScienceMeshes
 using StaticArrays
 
 #define global constants and variables
-const zerotol = 3e-16
+const zerotol_base = 3e-16
 
 include("GalerkinLaplaceTriGS.jl")
 include("GSorthogonalization.jl")

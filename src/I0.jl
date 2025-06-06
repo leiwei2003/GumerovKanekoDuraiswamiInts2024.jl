@@ -77,7 +77,7 @@ function I0(P, h1, h2, h3, h4)
     
     #debugging
     if I == Inf || I < 0
-        println("I = ", I, "\nat h = ", [h4,h3,h2,h1])
+#        println("I = ", I, "\nh = ", [h4,h3,h2,h1], "\n")
     end
 
     return I
