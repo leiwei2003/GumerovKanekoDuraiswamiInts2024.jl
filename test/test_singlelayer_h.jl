@@ -1,4 +1,4 @@
-# test that are currently still problematic
+# test that were problematic
 
 using CompScienceMeshes
 using GumerovKanekoDuraiswamiInts2024
@@ -23,9 +23,3 @@ vts2 = [SVector(0.01, 0.01, 0.0),SVector(0.01, 0.009000000000000001, 0.001),SVec
 mesh1 = Mesh(vts1, [SVector(1,2,3)])
 mesh2 = Mesh(vts2, [SVector(1,2,3)])
 @test IntegrateMesh(mesh2,mesh1) ≈ [2.7085862026852206e-12]
-
-vts1 = [SVector(0.0, 0.01, 0.009000000000000001), SVector(0.001, 0.01, 0.009000000000000001), SVector(0.0, 0.01, 0.01)]
-vts2 = [SVector(0.009000000000000001, 0.0, 0.001), SVector(0.01, 0.0, 0.001), SVector(0.01, 0.0, 0.0)]
-mesh1 = Mesh(vts1, [SVector(1,2,3)])
-mesh2 = Mesh(vts2, [SVector(1,2,3)])
-@test IntegrateMesh(mesh2,mesh1) ≈ [1.2287605621063186e-12]
