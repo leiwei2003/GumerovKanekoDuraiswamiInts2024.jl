@@ -1,4 +1,4 @@
-# test that are currecntly still problematic
+# test that are currently still problematic
 
 using CompScienceMeshes
 using GumerovKanekoDuraiswamiInts2024
