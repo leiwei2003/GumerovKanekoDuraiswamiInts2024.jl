@@ -16,7 +16,7 @@ function I3(e, a, h4)
     e24 = e22 + a[3]
 
     #debugging
-    println("s0 = ", s0)
+#    println("s0 = ", s0)
 
     #calculate boundary integrals
     if abs(1 + s0[1] + s0[2]) < zerotol

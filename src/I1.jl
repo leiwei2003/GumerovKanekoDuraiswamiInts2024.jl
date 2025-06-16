@@ -20,9 +20,7 @@ function I1(e1, a1, h2, h3, h4)::Float64
     na1 = norm(a1)
 
     #debugging
-    if [h4,h3,h2,h1] == [0.1, 0.0, 2.7755575615628914e-17, 0.0]
-        test = 1
-    end
+    println("h = ", h_all[4:-1:1])
 
     I = T(0)
     P1 = abs(T(1) + s01) * na1
@@ -33,6 +31,9 @@ function I1(e1, a1, h2, h3, h4)::Float64
     if abs(s01) > zerotol
         I -= s01 * I0(P2, h1, h2, h3, h4)
     end
+
+    #debugging
+    println("I = ", I, "\n")
 
     return I
 end
