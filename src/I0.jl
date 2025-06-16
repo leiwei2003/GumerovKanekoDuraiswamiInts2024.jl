@@ -6,7 +6,8 @@ function I0(P, h1, h2, h3, h4)
     hh1 = hh - h1 * h1
     zero2 = zerotol * zerotol
 
-    if hh < zero2 * P * P # if h1 = h2 = h3 = h4 = 0 -> Case 8 (singularity)
+#    if hh < zero2 * P * P # if h1 = h2 = h3 = h4 = 0 -> Case 8 (singularity)
+    if hh - h4^2 < zero2 * P^2 # DONT USE h1² + h2² + h3² THAT WILL NOT EVALUATE TO hh - h4² EXACTLY
         Phi1 = log(P) / P
         I = Phi1 / 6
     else

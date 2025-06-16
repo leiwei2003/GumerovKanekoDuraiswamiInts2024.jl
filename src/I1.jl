@@ -7,6 +7,9 @@ function I1(e1, a1, h2, h3, h4)::Float64
     h1, s01 = GSorthogonalization_expan(e1, a1)
     s01 = s01[1]
 
+    #debugging
+    println("h = ", [h4,h3,h2,h1])
+
     #making the smallest two h zero
     h_all = [h1, h2, h3, h4]
     i = sortperm(h_all)
@@ -20,8 +23,8 @@ function I1(e1, a1, h2, h3, h4)::Float64
     na1 = norm(a1)
 
     #debugging
-    println("h = ", h_all[4:-1:1])
-
+    #println(#="h = ",=# h_all[4:-1:1])
+    
     I = T(0)
     P1 = abs(T(1) + s01) * na1
     P2 = abs(s01) * na1
@@ -33,7 +36,7 @@ function I1(e1, a1, h2, h3, h4)::Float64
     end
 
     #debugging
-    println("I = ", I, "\n")
+    println(#="I = ",=# I, "\n")
 
     return I
 end
