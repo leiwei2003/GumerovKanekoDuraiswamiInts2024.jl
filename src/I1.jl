@@ -23,8 +23,7 @@ function I1(e1, a1, h2, h3, h4)::Float64
     na1 = norm(a1)
 
     #debugging
-    #println(#="h = ",=# h_all[4:-1:1])
-    
+
     I = T(0)
     P1 = abs(T(1) + s01) * na1
     P2 = abs(s01) * na1

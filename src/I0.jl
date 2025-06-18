@@ -54,8 +54,7 @@ function I0(P, h1, h2, h3, h4)
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
                     end
                     Phi3 = 0.5 / R1 * log((R1 + R) * (R1 + R) / hh1)
-                    I =
-                        (
+                    I = (
                             (h1 * h1 - 3 * h4 * h4) * Phi1 - h4 * (3 * h1 * h1 - h4 * h4) * Phi2 + 3 * h4 * h4 * Phi3 -
                             h4 * h4 / (R + h4)
                         ) / (6 * h1 * h1) # Case 6
@@ -64,21 +63,15 @@ function I0(P, h1, h2, h3, h4)
                     R2 = sqrt(P * P + h2 * h2)
                     Phi2 = atan(h2 * P / (hh + h4 * R)) / P
                     Phi4 = h4 * h4 / (h2 * P * P) * ((R2 / h2 * log((R2 + R) / h4) - log((h2 + h) / h4)))
-                    I =
-                        (
+                    I = (
                             (1 + 3 * h4 * h4 / (h2 * h2)) * Phi1 - 2 * (h4 / h2)^3 * Phi2 - 3 * Phi4 +
                             (2 * h4 * h4 - h2 * h2) / (h2 * h2 * (R + h))
                         ) / 6 # Case 7
                 else
-                    I = 0 # no case detected
+                    I = T(0) # no case detected
                 end
             end
         end
-    end
-    
-    #debugging
-    if I == Inf || I < 0
-#        println("I = ", I, "\nh = ", [h4,h3,h2,h1], "\n")
     end
 
     return I

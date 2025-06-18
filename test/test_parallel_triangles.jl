@@ -81,3 +81,15 @@ vts2 = [SVector(0.009, 0.0, 0.01), SVector(0.01, 0.0, 0.01), SVector(0.01, 0.0, 
 mesh1 = Mesh(vts1, [SVector(1,2,3)])
 mesh2 = Mesh(vts2, [SVector(1,2,3)])
 @test IntegrateMesh(mesh2,mesh1) ≈ [1.9892632882787775e-14]
+
+vts1 = [SVector(0.0, 10, 0.0), SVector(0.001, 10, 0.0), SVector(0.0, 10, 0.001)]
+vts2 = [SVector(0.009, 0.0, 0.01), SVector(0.01, 0.0, 0.01), SVector(0.01, 0.0, 0.009)]
+mesh1 = Mesh(vts1, [SVector(1,2,3)])
+mesh2 = Mesh(vts2, [SVector(1,2,3)])
+@test IntegrateMesh(mesh2,mesh1) ≈ [1.9894350534201443e-15]
+
+vts1 = [SVector(0.0, 100, 0.0), SVector(0.001, 100, 0.0), SVector(0.0, 100, 0.001)]
+vts2 = [SVector(0.009, 0.0, 0.01), SVector(0.01, 0.0, 0.01), SVector(0.01, 0.0, 0.009)]
+mesh1 = Mesh(vts1, [SVector(1,2,3)])
+mesh2 = Mesh(vts2, [SVector(1,2,3)])
+@test IntegrateMesh(mesh2,mesh1) ≈ [1.9894367712963721e-16]
