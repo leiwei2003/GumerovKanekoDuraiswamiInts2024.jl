@@ -22,8 +22,6 @@ function I1(e1, a1, h2, h3, h4)::Float64
 
     na1 = norm(a1)
 
-    #debugging
-
     I = T(0)
     P1 = abs(T(1) + s01) * na1
     P2 = abs(s01) * na1
@@ -35,7 +33,11 @@ function I1(e1, a1, h2, h3, h4)::Float64
     end
 
     #debugging
-    println(#="I = ",=# I, "\n")
+    println("I = ", I, "\n")
+
+    if I < 0
+        p = 1
+    end
 
     return I
 end
