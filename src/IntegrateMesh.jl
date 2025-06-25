@@ -1,4 +1,4 @@
-function IntegrateMesh(Γ1::CompScienceMeshes.Mesh{3,3,Float64}, Γ2::CompScienceMeshes.Mesh{3,3,Float64}; operator="singlelayer")
+function IntegrateMesh(Γ1::CompScienceMeshes.Mesh{3,3,BigFloat}, Γ2::CompScienceMeshes.Mesh{3,3,BigFloat}; operator="singlelayer")
 
     #unpack the mesh
     vertices1 = Γ1.vertices

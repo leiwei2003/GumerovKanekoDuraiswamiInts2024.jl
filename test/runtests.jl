@@ -2,6 +2,9 @@ using GumerovKanekoDuraiswamiInts2024
 using Test
 using StaticArrays
 
+#BigFloat shortcut
+BF = BigFloat
+
 include("test_L_beast.jl")
 include("test_M_beast.jl")
 include("test_Ld.jl")
