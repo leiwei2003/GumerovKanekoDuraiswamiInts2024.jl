@@ -7,13 +7,8 @@ function I1(e1, a1, h2, h3, h4)::Float64
     h1, s01 = GSorthogonalization_expan(e1, a1)
     s01 = s01[1]
 
-    #=debugging
-    println("h = ")
-    println(h4)
-    println(h3)
-    println(h2)
-    println(h1)
-    =#
+    #debugging
+    println("h = ", [h4,h3,h2,h1])
 
     #making the smallest two h zero
     h_all = [h1, h2, h3, h4]
@@ -39,6 +34,7 @@ function I1(e1, a1, h2, h3, h4)::Float64
 
     #debugging
     println("I = ", I, "\n")
+    println("P1, P2 = ", [P1,P2])
 
     if I < 0
         p = 1

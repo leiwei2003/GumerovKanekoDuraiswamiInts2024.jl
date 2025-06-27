@@ -106,7 +106,7 @@ function GalerkinLaplaceTriGS(x1, x2, x3, y1, y2, y3; L_output=1, Md_output=0)
                 M = T(4) * Ax * Ay * delta * I4m
             end
 
-            #=
+            
             I34d = I3(e4, SVector(a14, a24, a34), T(0))
             I35d = I3(e4 + a1, SVector(a15, a25, a35), T(0))
             I36d = I3(e4, SVector(a16, a26, a36), T(0))
@@ -114,7 +114,7 @@ function GalerkinLaplaceTriGS(x1, x2, x3, y1, y2, y3; L_output=1, Md_output=0)
         end
 
         #double layer transposed
-        Ld = (-Fx - M * nx) ⋅ (ny)=#
+        Ld = (-Fx - M * nx) ⋅ (ny)
     else
         L = 0.0
         M = 0.0
