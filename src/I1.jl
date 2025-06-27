@@ -9,6 +9,7 @@ function I1(e1, a1, h2, h3, h4)::Float64
 
     #debugging
     println("h = ", [h4,h3,h2,h1])
+        println("a1 = ", norm(a1))
 
     #making the smallest two h zero
     h_all = [h1, h2, h3, h4]
@@ -33,8 +34,8 @@ function I1(e1, a1, h2, h3, h4)::Float64
     end
 
     #debugging
-    println("I = ", I, "\n")
-    println("P1, P2 = ", [P1,P2])
+  #  println("I = ", I, "\n")
+   # println("P1, P2 = ", [P1,P2])
 
     if I < 0
         p = 1

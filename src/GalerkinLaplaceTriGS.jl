@@ -90,7 +90,7 @@ function GalerkinLaplaceTriGS(x1, x2, x3, y1, y2, y3; L_output=1, Md_output=0)
             #degenerate case
             delta = -dot(e4, nx) #singed distance between planes
 
-            if true #h4 <= zerotol
+            if h4 <= zerotol
                 M = T(0.0)
             else
                 I31m = I3m(e31, SVector(a11, a21, a31), h4)
