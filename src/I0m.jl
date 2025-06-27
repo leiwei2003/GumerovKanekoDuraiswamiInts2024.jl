@@ -20,14 +20,19 @@ function I0m(P, h1, h2, h3, h4)
             Phi2 = atan(h1 * P / (hh + h4 * R)) / P
         end
         Phi3 = 1 / R1 * log((R1 + R) / h4)
-        I = (Phi1 + (h1 * h1 - h4 * h4) / (2 * h1 * h4) * Phi2 - Phi3 + 0.5 / (R + h4)) / (h1 * h1) # Case 6
+        I = (
+            Phi1 + (h1 * h1 - h4 * h4) / (2 * h1 * h4) * Phi2
+            - Phi3 + 0.5 / (R + h4)
+            ) / (h1 * h1) # Case 6
     elseif h1 * h1 < zero2 * hh # if h1 = 0 -> Case 7
         h = sqrt(hh)
         R2 = sqrt(P * P + h2 * h2)
         Phi2 = atan(h2 * P / (hh + h4 * R)) / P
         Phi4 = h4 * h4 / (h2 * P * P) * ((R2 / h2 * log((R2 + R) / h4) - log((h2 + h) / h4)))
-        I = (-Phi1 + h4 / h2 * Phi2 + h2 * h2 / (h4 * h4) * Phi4
-        - (R2 * R2 / (R + h4) - h2 * h2 / (h + h4)) / (P * P)) / (h2 * h2) # Case 7
+        I = (
+            - Phi1 + h4 / h2 * Phi2 + h2 * h2 / (h4 * h4) * Phi4
+            - (R2 * R2 / (R + h4) - h2 * h2 / (h + h4)) / (P * P)
+            ) / (h2 * h2) # Case 7
     end
 
     return I
