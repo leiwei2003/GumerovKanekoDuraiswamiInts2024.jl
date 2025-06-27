@@ -23,6 +23,10 @@ function I1(e1, a1, h2, h3, h4)::Float64
 
     na1 = norm(a1)
 
+    if h1^2 + h2^2 + h3^2 < 1e-30
+        p=1
+    end
+
     I = T(0)
     P1 = abs(T(1) + s01) * na1
     P2 = abs(s01) * na1
@@ -36,10 +40,6 @@ function I1(e1, a1, h2, h3, h4)::Float64
     #debugging
   #  println("I = ", I, "\n")
    # println("P1, P2 = ", [P1,P2])
-
-    if I < 0
-        p = 1
-    end
 
     return I
 end
