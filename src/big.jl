@@ -7,11 +7,13 @@ h2 = 0.0
 h1 = 4.9065389333867974e-18
 P1 = 0.01131370849898476
 
+P = P1
+
 I0 = GumerovKanekoDuraiswamiInts2024.I0(P1, h1, h2, h3, h4)
 
 zerotol = 3e-16
 
-P = P1
+
 ##
 P = BigFloat(P)
 h1 = BigFloat(h1)
@@ -23,8 +25,9 @@ hh = h1^2 + h2^2 + h3^2 + h4^2
 R = sqrt(P^2 + hh)
 Phi1 = 0.5 * log((P + R)^2 / hh) / P
 R1 = sqrt(P^2 + h1^2)
-hh1 = hh - h1^2
+hh1 = h2^2 + h3^2 + h4^2
 zero2 = zerotol * zerotol
+
 
 
 ##
@@ -38,3 +41,51 @@ I = (
     (h1^2 - 3 * h4^2) * Phi1 - h4 * (3 * h1^2 - h4^2) * Phi2
     + 3 * h4^2 * Phi3 - h4^2 / (R + h4)
     ) / (6 * h1^2) # Case 6
+
+##
+I = Phi1/6 + 1/2 * (h4/h1)^2 * (Phi3 - Phi1) + 1/6*(h4/h1)^2*(h4* Phi2 - 1/(R + h4) ) - 1/2 * h4 * Phi2 
+##
+I = Phi1/6 - 1/2 * h4 * Phi2 
+##
+(h4/h1)^2 / 6 * (((3*Phi3 + h4* Phi2) - 1/(R + h4) - 3*Phi1) )
+##
+@show Ref = (Phi3 - Phi1)*(Phi3 + Phi1)
+Diff = P^2 * (((R1+R)^2/hh1)^2 - ((P+R)^2/hh)^2 - 2 * (R1+R)^2/hh1 + 2 * ((P+R)^2/hh))
+        - h1^2 * (((P+R)^2/hh)^2 - 2 * ((P+R)^2/hh) + 1)
+
+@show Diff2= 1/4 * 1/((P^2+h1^2)*P^2)*Diff
+
+@show final = (1/4 * 1/((P^2+h1^2)*P^2)*(- h1^2 * (((P+R)^2/hh)^2 - 2 * ((P+R)^2/hh) + 1)))/(Phi1+Phi3)/h1^2
+
+1
+##
+@show Ref = Phi3^2 - Phi1^2
+@show Alt = 1/4 * 1/((P^2+h1^2)*P^2) * (P^2 * log((R1 + R)^2 / hh1)^2 - (P^2 + h1^2)*log((P + R)^2 / hh)^2)
+@show Alt2 = 1/4 * 1/((P^2+h1^2)*P^2) * (P^2 * (log((R1 + R)^2 / hh1)^2 - log((P + R)^2 / hh)^2) - h1^2*log((P + R)^2 / hh)^2)
+##
+@show Alt3 = 1/4 * 1/((P^2+h1^2)*P^2) * ( 
+    P^2 * (log((R1 + R)^2 / hh1) - log((P + R)^2 / hh))*log((R1 + R)^2 / hh1) + log((P + R)^2 / hh) * (P^2 * log((R1 + R)^2 / hh1) - P^2*log((P + R)^2 / hh) - h1^2 * log((P + R)^2 / hh)) 
+    )
+
+a = (R1+R)^2/hh1
+b = (P+R)^2/hh
+
+New = 1/(P^2*(h1^2+P^2)) * 1/4 * (P^2 * log(a/b) * log(a*b) - h1^2 * log(b)^2)
+##
+
+Ref2 = 1/h1^2 * log(a/b) * log(a*b) - log(b)^2 / P^2  
+
+Ref3 = 1/h1^2 * (a/b -1) * log(a*b) - log(b)^2 / P^2  
+
+##
+Ref4 = (a/b -1)
+Ref5 = (R1+R)^2/(P+R)^2 *hh/hh1  - 1
+
+Ref6 = ((R1+R)^2-(P+R)^2)/(P+R)^2 # ≈ Ref4
+
+Ref7 = (h1^2+2*sqrt(P^2 + hh)*(sqrt(P^2+h1^2) - P))/(P+R)^2
+
+Ref8 = (1+ sqrt(P^2 + hh)/P)/(P+R)^2 +  (R1+R)^2/(P+R)^2 /hh1
+
+##
+Ref9 = Ref8 * log(a*b) - log(b)^2 / P^2  
