@@ -1,12 +1,6 @@
 function I0(P, h1, h2, h3, h4)
     #calculate 1D PBF
 
-    h1 = BigFloat(h1)
-    h2 = BigFloat(h2)
-    h3 = BigFloat(h3)
-    h4 = BigFloat(h4)
-    P = BigFloat(P)
-
     hh = h1^2 + h2^2 + h3^2 + h4^2
     R = sqrt(P^2 + hh)
     hh1 = hh - h1^2
@@ -78,7 +72,8 @@ function I0(P, h1, h2, h3, h4)
             end
         end
     end
-
-    return Float64(I)
+ #   I = 2
+#@infiltrate true
+    return I
 
 end

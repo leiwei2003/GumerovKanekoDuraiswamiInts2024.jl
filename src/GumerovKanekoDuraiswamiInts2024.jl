@@ -5,8 +5,7 @@ using LinearAlgebra
 using CompScienceMeshes
 using StaticArrays
 
-#BigFloat shortcut
-BF = BigFloat
+using Infiltrator
 
 #define global constants and variables
 const zerotol = 3e-16
