@@ -103,6 +103,6 @@ I4 = Phi1/6 + 1/2 * (h4/h1)^2 * (
     (P^2 * log(a*b) * (a/b - 1) - h1^2 * log(b)^2) / (4 * P^2 * (P^2 + h1^2)) # Phi3^2 - Phi1^2
 )/(Phi1 + Phi3) + 1/6 * (h4/h1)^2 * (h4* Phi2 - 1/(R + h4) ) - 1/2 * h4 * Phi2
 # a/b - 1 ersetzen
-I4 = Phi1/6 + 1/2 * (h4/h1)^2 * (
-    (P^2 * log(a*b) * (h1^2 + h1^2 * R / P) / (b*hh) - h1^2 * log(b)^2) / (4 * P^2 * (P^2 + h1^2)) # Phi3^2 - Phi1^2
+I4 = Phi1/6 + 1/2 * (h4/h1)^2 * ( # Check the substitution for a/b -1 below !!!
+    (P^2 * log(a*b) * (h1^2 + h1^2 * R / P) / b - h1^2 * log(b)^2) / (4 * P^2 * (P^2 + h1^2)) # Phi3^2 - Phi1^2
 )/(Phi1 + Phi3) + 1/6 * (h4/h1)^2 * (h4* Phi2 - 1/(R + h4) ) - 1/2 * h4 * Phi2
