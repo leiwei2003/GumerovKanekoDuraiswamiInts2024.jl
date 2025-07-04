@@ -14,12 +14,12 @@ I0 = GumerovKanekoDuraiswamiInts2024.I0(P1, h1, h2, h3, h4)
 zerotol = 3e-16
 
 
-
 P = BigFloat(P)
 h1 = BigFloat(h1)
 h2 = BigFloat(h2)
 h3 = BigFloat(h3)
 h4 = BigFloat(h4)
+
 
 hh = h1^2 + h2^2 + h3^2 + h4^2
 R = sqrt(P^2 + hh)
@@ -31,11 +31,11 @@ zero2 = zerotol * zerotol
 
 
 
-if h1 * P < zerotol
-    Phi2 = 1 / (hh + h4 * R) # catch P = 0
-else
+#if h1 * P < zerotol
+#    Phi2 = 1 / (hh + h4 * R) # catch P = 0
+#else
     Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
-end
+#end
 Phi3 = 0.5 / R1 * log((R1 + R)^2 / hh1)
 I = (
     (h1^2 - 3 * h4^2) * Phi1 - h4 * (3 * h1^2 - h4^2) * Phi2
@@ -79,16 +79,15 @@ Ref3 = 1/h1^2 * (a/b -1) * log(a*b) - log(b)^2 / P^2   # log(1+e) ≈ e für e<<
 
 #
 Ref4 = (a/b - 1)
-Ref5 = (R1+R)^2/(P+R)^2 * hh/hh1 - 1
+Ref5 = (R1+R)^2/(P+R)^2 * hh/hh1 - 1 # Do NOT cancel hh/hh1 to 1 !!
 
-Ref6 = ((R1+R)^2-(P+R)^2)/(P+R)^2 # ≈ Ref4
+Ref6 = 1/(h4^2 * (P + R)^2) * (h4^2* (h1^2 + h1^2 * R/P) + h1^2 * (h4^2 + 2 * (P^2 + h1^2 + R * R1)))
 
-Ref7 = (h1^2+2*sqrt(P^2 + hh)*(sqrt(P^2+h1^2) - P))/(P+R)^2
+Ref7 = h1^2/(h4^2 * (P + R)^2) * (h4^2 * (2 + R/P) + 2 * (h1^2 + P^2 + R1 * R))
 
-Ref8 = (1 + sqrt(P^2 + hh)/P)/(P+R)^2 +  (R1+R)^2/(P+R)^2 /hh1
+# durch h1^2 teilen, wegen Formel von I
 
-#
-Ref9 = Ref8 * log(a*b) - log(b)^2 / P^2
+Ref11 = 1/(h4^2 * (P + R)^2) * (h4^2 * (2 + R/P) + 2 * (h1^2 + P^2 + R1 * R)) # BigFloat = Float64 :)
 
 #
 I = Phi1/6 + 1/2 * (h4/h1)^2 * (Phi3 - Phi1) + 1/6*(h4/h1)^2*(h4* Phi2 - 1/(R + h4) ) - 1/2 * h4 * Phi2 # Case 6
@@ -97,12 +96,22 @@ I2 = Phi1/6 + 1/2 * (h4/h1)^2 * (Phi3^2 - Phi1^2)/(Phi1 + Phi3) + 1/6 * (h4/h1)^
 
 I3 = Phi1/6 + 1/2 * (h4/h1)^2 * (
     (P^2 * log(a*b) * log(a/b) - h1^2 * log(b)^2) / (4 * P^2 * (P^2 + h1^2)) # Phi3^2 - Phi1^2
-)/(Phi1 + Phi3) + 1/6 * (h4/h1)^2 * (h4* Phi2 - 1/(R + h4) ) - 1/2 * h4 * Phi2
+)/(Phi1 + Phi3) + 1/6 * (h4/h1)^2 * (h4* Phi2 - 1/(R + h4)) - 1/2 * h4 * Phi2
 # log(a/b) ersetzen
 I4 = Phi1/6 + 1/2 * (h4/h1)^2 * (
     (P^2 * log(a*b) * (a/b - 1) - h1^2 * log(b)^2) / (4 * P^2 * (P^2 + h1^2)) # Phi3^2 - Phi1^2
-)/(Phi1 + Phi3) + 1/6 * (h4/h1)^2 * (h4* Phi2 - 1/(R + h4) ) - 1/2 * h4 * Phi2
+)/(Phi1 + Phi3) + 1/6 * (h4/h1)^2 * (h4* Phi2 - 1/(R + h4)) - 1/2 * h4 * Phi2
 # a/b - 1 ersetzen
-I4 = Phi1/6 + 1/2 * (h4/h1)^2 * ( # Check the substitution for a/b -1 below !!!
-    (P^2 * log(a*b) * (h1^2 + h1^2 * R / P) / b - h1^2 * log(b)^2) / (4 * P^2 * (P^2 + h1^2)) # Phi3^2 - Phi1^2
-)/(Phi1 + Phi3) + 1/6 * (h4/h1)^2 * (h4* Phi2 - 1/(R + h4) ) - 1/2 * h4 * Phi2
+I5 = Phi1/6 + 1/2 * (h4/h1)^2 * (
+    (P^2 * log(a*b) * Ref7 - h1^2 * log(b)^2) / (4 * P^2 * (P^2 + h1^2)) # Phi3^2 - Phi1^2
+)/(Phi1 + Phi3) + 1/6 * (h4/h1)^2 * (h4* Phi2 - 1/(R + h4)) - 1/2 * h4 * Phi2
+# h1^2 kürzen
+I6 = Phi1/6 + 1/2 * h4^2 * (
+    (P^2 * log(a*b) * Ref11 - log(b)^2) / (4 * P^2 * (P^2 + h1^2)) # (Phi3^2 - Phi1^2) / h1^2
+)/(Phi1 + Phi3) + 1/6 * (h4/h1)^2 * (h4* Phi2 - 1/(R + h4)) - 1/2 * h4 * Phi2
+
+#
+
+Var = h4* Phi2 - 1/(R + h4)
+
+Var2 = h4 / (h1^2 + h4^2 + h4 * R) - 1/(R + h4)
