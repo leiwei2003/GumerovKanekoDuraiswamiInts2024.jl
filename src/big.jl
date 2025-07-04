@@ -90,7 +90,7 @@ Ref7 = h1^2/(h4^2 * (P + R)^2) * (h4^2 * (2 + R/P) + 2 * (h1^2 + P^2 + R1 * R))
 Ref11 = 1/(h4^2 * (P + R)^2) * (h4^2 * (2 + R/P) + 2 * (h1^2 + P^2 + R1 * R)) # BigFloat = Float64 :)
 
 #
-I = Phi1/6 + 1/2 * (h4/h1)^2 * (Phi3 - Phi1) + 1/6*(h4/h1)^2*(h4* Phi2 - 1/(R + h4) ) - 1/2 * h4 * Phi2 # Case 6
+I1 = Phi1/6 + 1/2 * (h4/h1)^2 * (Phi3 - Phi1) + 1/6*(h4/h1)^2*(h4* Phi2 - 1/(R + h4) ) - 1/2 * h4 * Phi2 # Case 6
 
 I2 = Phi1/6 + 1/2 * (h4/h1)^2 * (Phi3^2 - Phi1^2)/(Phi1 + Phi3) + 1/6 * (h4/h1)^2 * (h4* Phi2 - 1/(R + h4) ) - 1/2 * h4 * Phi2 # Case 6
 
@@ -112,6 +112,23 @@ I6 = Phi1/6 + 1/2 * h4^2 * (
 
 #
 
-Var = h4* Phi2 - 1/(R + h4)
+Var = h4 * Phi2 - 1/(R + h4)
 
-Var2 = h4 / (h1^2 + h4^2 + h4 * R) - 1/(R + h4)
+Var2 = h4 / (h1^2 + h4^2 + h4 * R) - 1/(R + h4) # atan(x) ≈ x
+
+Var25 = -h1^2 / ((hh + R * h4) * (R +h4)) # just as precise as Var3
+
+Var3 = -h1^2 / (2 * hh * h4 + h4 * P^2 + (2*h4^2 + h1^2) * R)
+
+# -h1^2 mit Formel kürzen
+Var4 = 1 / (2 * hh * h4 + h4 * P^2 + (2*h4^2 + h1^2) * R)
+
+#
+
+In1 = Phi1/6 + 1/2 * h4^2 * (
+    (P^2 * log(a*b) * Ref11 - log(b)^2) / (4 * P^2 * (P^2 + h1^2)) # (Phi3^2 - Phi1^2) / h1^2
+)/(Phi1 + Phi3) + 1/6 * (h4/h1)^2 * Var3 - 1/2 * h4 * Phi2
+
+In2 = Phi1/6 + 1/2 * h4^2 * (
+    (P^2 * log(a*b) * Ref11 - log(b)^2) / (4 * P^2 * (P^2 + h1^2)) # (Phi3^2 - Phi1^2) / h1^2
+)/(Phi1 + Phi3) - 1/6 * h4^2 * Var4 - 1/2 * h4 * Phi2
