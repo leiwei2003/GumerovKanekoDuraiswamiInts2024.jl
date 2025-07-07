@@ -39,28 +39,3 @@ I = (
     + 3 * h4^2 * Phi3 - h4^2 / (R + h4)
     ) / (6 * h1^2) # Case 6
 
-
-
-
-for h in 1:30
-    for p in 1:30
-        
-        h1 = 10^(h/2)*1e-12
-        P = 10^(p/2)*1e-12
-
-        hh = h1^2 + h2^2 + h3^2 + h4^2
-        R = sqrt(P^2 + hh)
-        R1 = sqrt(P^2 + h1^2)
-        hh1 = h2^2 + h3^2 + h4^2
-        zero2 = zerotol * zerotol
-
-        Phi1 = 0.5 * log((P + R)^2 / hh) / P
-        Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
-        Phi3 = 0.5 / R1 * log((R1 + R)^2 / hh1)
-
-        I = Phi1/6 + 1/2 * (h4/h1)^2 * (Phi3 - Phi1) + 1/6 * (h4/h1)^2 * (h4 * Phi2 - 1/(R + h4)) - 1/2 * h4 * Phi2
-
-        println([P,h1,I])
-
-    end
-end
