@@ -38,8 +38,8 @@ function I1(e1, a1, h2, h3, h4)::Float64
     end
 
     #debugging
-  #  println("I = ", I, "\n")
-   # println("P1, P2 = ", [P1,P2])
+    println("I = ", I, "\n")
+    println("P1, P2 = ", [P1,P2])
 
     return I
 end

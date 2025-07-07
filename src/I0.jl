@@ -3,7 +3,7 @@ function I0(P, h1, h2, h3, h4)
 
     hh = h1^2 + h2^2 + h3^2 + h4^2
     R = sqrt(P^2 + hh)
-    hh1 = hh - h1^2
+    hh1 = h2^2 + h3^2 + h4^2
     zero2 = zerotol * zerotol
 
     if hh < zero2 * P^2 # if h1 = h2 = h3 = h4 = 0 -> Singularity
@@ -25,7 +25,7 @@ function I0(P, h1, h2, h3, h4)
                 R1 = sqrt(P^2 + h1^2)
                 if h2^2 + h4^2 < zero2 * hh # if h2 = h4 = 0 -> Case 4
                     if h1 < zerotol # catch h1 = 0
-                        I = (Phi1 - 2 / (h3 + R)) / 6 # limit of term below as h1 approaches 0
+                        I = (Phi1 - 2 / (h3 + R)) / 6 # limit of case 4 as h1 approaches 0
                     else
                         if h1 * P < zerotol
                             Phi2 = 1 / (hh + h3 * R) # catch P = 0
@@ -53,10 +53,17 @@ function I0(P, h1, h2, h3, h4)
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
                     end
                     Phi3 = 0.5 / R1 * log((R1 + R)^2 / hh1)
-                    I = (
-                        (h1^2 - 3 * h4^2) * Phi1 - h4 * (3 * h1^2 - h4^2) * Phi2
-                        + 3 * h4^2 * Phi3 - h4^2 / (R + h4)
+                    if h1 < 1e-6
+                        I = Phi1/6 + 1/2 * h4^2 * (
+                            (P^2 * log((P + R)^2 * (R1 + R)^2 / (hh * hh1)) * 
+                            1 / (h4^2 * (P + R)^2) * (h4^2 * (2 + R/P) + 2 * (h1^2 + P^2 + R1 * R)) - log((P + R)^2 / hh)^2 ) / (4 * P^2 * (P^2 + h1^2))
+                        )/(Phi1 + Phi3) - 1/6 * h4^2 * 1 / (2 * hh * h4 + h4 * P^2 + (2*h4^2 + h1^2) * R) - 1/2 * h4 * Phi2
+                    else
+                        I = (
+                            (h1^2 - 3 * h4^2) * Phi1 - h4 * (3 * h1^2 - h4^2) * Phi2
+                            + 3 * h4^2 * Phi3 - h4^2 / (R + h4)
                         ) / (6 * h1^2) # Case 6
+                    end
                 elseif h2 > 0 # if h1 = h3 = 0 -> Case 7
                     h = sqrt(hh)
                     R2 = sqrt(P^2 + h2^2)
