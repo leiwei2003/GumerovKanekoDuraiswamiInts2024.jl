@@ -53,7 +53,7 @@ function I0(P, h1, h2, h3, h4)
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
                     end
                     Phi3 = 0.5 / R1 * log((R1 + R)^2 / hh1)
-                    if h1 < 1e-6
+                    if h1 < 1e-9
                         I = Phi1/6 + 1/2 * h4^2 * (
                             (P^2 * log((P + R)^2 * (R1 + R)^2 / (hh * hh1)) * 
                             1 / (h4^2 * (P + R)^2) * (h4^2 * (2 + R/P) + 2 * (h1^2 + P^2 + R1 * R)) - log((P + R)^2 / hh)^2 ) / (4 * P^2 * (P^2 + h1^2))

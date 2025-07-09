@@ -81,7 +81,7 @@ Ref3 = 1/h1^2 * (a/b -1) * log(a*b) - log(b)^2 / P^2   # log(1+e) ≈ e für e<<
 Ref4 = (a/b - 1)
 Ref5 = (R1+R)^2/(P+R)^2 * hh/hh1 - 1 # Do NOT cancel hh/hh1 to 1 !!
 
-Ref6 = 1/(h4^2 * (P + R)^2) * (h4^2* (h1^2 + h1^2 * R/P) + h1^2 * (h4^2 + 2 * (P^2 + h1^2 + R * R1)))
+Ref6 = 1/(h4^2 * (P + R)^2) * (h4^2 * (h1^2 + h1^2 * R/P) + h1^2 * (h4^2 + 2 * (P^2 + h1^2 + R * R1)))
 
 Ref7 = h1^2/(h4^2 * (P + R)^2) * (h4^2 * (2 + R/P) + 2 * (h1^2 + P^2 + R1 * R))
 
@@ -116,7 +116,7 @@ Var = h4 * Phi2 - 1/(R + h4)
 
 Var2 = h4 / (h1^2 + h4^2 + h4 * R) - 1/(R + h4) # atan(x) ≈ x
 
-Var25 = -h1^2 / ((hh + R * h4) * (R +h4)) # just as precise as Var3
+Var25 = -h1^2 / ((hh + R * h4) * (R + h4)) # just as precise as Var3
 
 Var3 = -h1^2 / (2 * hh * h4 + h4 * P^2 + (2*h4^2 + h1^2) * R)
 
