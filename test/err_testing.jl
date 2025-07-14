@@ -37,7 +37,7 @@ function I6jlNewer(P, h1, h4)
     R1 = sqrt(P^2 + h1^2)
     RR1 = P^2 + h1^2
     
-    Phi1 = 1/2 * log((P + R)^2 / hh) / P
+    Phi1 = 1/2 / P * log((P + R)^2 / hh)
     Phi3 = 1/2 / R1 * log((R1 + R)^2 / hh1)
 
     if true#h1 < 1e-6
@@ -54,6 +54,31 @@ function I6jlNewer(P, h1, h4)
             + 3 * h4^2 * Phi3 - h4^2 / (R + h4)
         ) / (6 * h1^2)
     end
+
+    return I
+end
+
+function I6jlNewest(P, h1, h4)
+
+    hh = h1^2 + h4^2
+    hh1 = h4^2
+    R = sqrt(P^2 + hh)
+    R1 = sqrt(P^2 + h1^2)
+    RR = P^2 + hh
+    
+    Phi1 = 1/2 * log((P + R)^2 / hh) / P
+    Phi3 = 1/2 / R1 * log((R1 + R)^2 / hh1)
+
+    if h1 * P < 3e-16
+        Phi2 = 1 / (hh + h4 * R) # catch P = 0
+    else
+        Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
+    end
+    I = Phi1/6 +
+        h4^2/(4 * RR) * ((1/(R1 * R) - 1/(RR + P * R) + 1/hh + log(hh) / P^2) - 2 * log(P + R) / P^2) # Phi3 - Phi1
+        + 1/6*(h4/h1)^2*(h4* Phi2 - 1/(R + h4) ) - 1/2 * h4 * Phi2
+                # Das hierüber überprüfen! #
+
 
     return I
 end
