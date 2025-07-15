@@ -76,8 +76,10 @@ function I6jlNewest(P, h1, h4)
     end
     I = Phi1/6 +
         h4^2/(4 * RR) * ((1/(R1 * R) - 1/(RR + P * R) + 1/hh + log(hh) / P^2) - 2 * log(P + R) / P^2) # Phi3 - Phi1
-        + 1/6*(h4/h1)^2*(h4* Phi2 - 1/(R + h4) ) - 1/2 * h4 * Phi2
-                # Das hierüber überprüfen! #
+        - h4^3/18 * 1/((h1 * P)^2 + (hh + h4 * R)^2)^2 * (
+            (hh + h4 * R) + P^2 * (h4^2 + h4 * R) + 2 * ((h4^2 + h4 * R)^2 - h1^4)
+        ) - 1/2 * h4 * Phi2
+
 
 
     return I
