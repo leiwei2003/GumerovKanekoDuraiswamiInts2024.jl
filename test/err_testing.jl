@@ -35,25 +35,18 @@ function I6jlNewer(P, h1, h4)
     hh1 = h4^2
     R = sqrt(P^2 + hh)
     R1 = sqrt(P^2 + h1^2)
+    RR = P^2 + hh
     RR1 = P^2 + h1^2
     
     Phi1 = 1/2 / P * log((P + R)^2 / hh)
+    Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
     Phi3 = 1/2 / R1 * log((R1 + R)^2 / hh1)
 
-    if true#h1 < 1e-6
-        Phi2 = 1 / (hh + h4 * R)
-
-        I = Phi1/6 + h4^2/(8 * P^2 * RR1) * (
-            P^2 * log((R1 + R)^2 / h4^2 * (P + R)^2 / hh) * (1/(R1 * R) - 1/hh) - log((P + R)^2 / hh)^2
-        )/(Phi1 + Phi3) - 1/6 * h4^2 * 1 / (2 * hh * h4 + h4 * P^2 + (2*h4^2 + h1^2) * R) - 1/2 * h4 * Phi2
-    else
-        Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
-        
-        I = (
-            (h1^2 - 3 * h4^2) * Phi1 - h4 * (3 * h1^2 - h4^2) * Phi2
-            + 3 * h4^2 * Phi3 - h4^2 / (R + h4)
-        ) / (6 * h1^2)
-    end
+    Phi1/6 + 1/4 * h4^2/RR1 * (
+        1/R - Phi1 - RR1/P * (1/(R * P + RR) - 1/hh)
+    ) - 1/18 * h4^3/((h1 * P)^2 + (hh + h4 * R)^2)^2 * (
+        (hh + h4 * R)^2 + P^2 * (h4^2 + h4 * R) + 2 * ((h4^2 + h4 * R)^2 - h1^4)
+    ) - 1/2 * h4 * Phi2
 
     return I
 end
@@ -64,23 +57,18 @@ function I6jlNewest(P, h1, h4)
     hh1 = h4^2
     R = sqrt(P^2 + hh)
     R1 = sqrt(P^2 + h1^2)
+    R4 = sqrt(P^2 + h4^2)
     RR = P^2 + hh
+    RR1 = P^2 + h1^2
+    RR4 = P^2 + h4^2
     
     Phi1 = 1/2 * log((P + R)^2 / hh) / P
-    Phi3 = 1/2 / R1 * log((R1 + R)^2 / hh1)
+    Phi3 = 1/2 * log((R1 + R)^2 / hh1) / R1
+    Phi2 = 1 / (hh + h4 * R)
 
-    if h1 * P < 3e-16
-        Phi2 = 1 / (hh + h4 * R) # catch P = 0
-    else
-        Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
-    end
-    I = Phi1/6 +
-        h4^2/(4 * RR) * ((1/(R1 * R) - 1/(RR + P * R) + 1/hh + log(hh) / P^2) - 2 * log(P + R) / P^2) # Phi3 - Phi1
-        - h4^3/18 * 1/((h1 * P)^2 + (hh + h4 * R)^2)^2 * (
-            (hh + h4 * R) + P^2 * (h4^2 + h4 * R) + 2 * ((h4^2 + h4 * R)^2 - h1^4)
-        ) - 1/2 * h4 * Phi2
-
-
+    I = 1/6 * log((P + R4)/h4) / P + 1/4 * (h4/P)^2 * (
+            1/R4 - 1/P * (log((P + R4)/h4)) - P * (1/(RR4 + P * R4) - 1/h4^2)
+        ) - 1/18 * 1/(h4 + R4)^3 * (3 * (h4^2 + h4 * R4) + P) - 1/2 * 1/(h4 + R4)
 
     return I
 end
@@ -117,20 +105,22 @@ P = 0.01131370849898476
 
 I = I6jl(Float64(P), Float64(h1), Float64(h4))
 
-for i in 0:30
+println("+++ Begin +++\n")
+
+for i in 0:50
     h1 = 2^i*1e-12
     h4 = 100.0
     P = P
-    #=
+    #
     h1 = BigFloat(h1)
     h4 = BigFloat(h4)
     P = BigFloat(P)
-    =#
+    #
 
     println("\nP = ", P, ", h4 = ", h4, ", h1 = ", h1)
     println("I = ", I6jlNewer(P, h1, h4))
 end
 
-println(I6jl(P, sqrt(2)/2000, h4))
+println("\n\n", I6jl(P, sqrt(2)/2000, h4))
 
 GumerovKanekoDuraiswamiInts2024.I0(0.01, sqrt(2)/2000, 0, 0, h4)
