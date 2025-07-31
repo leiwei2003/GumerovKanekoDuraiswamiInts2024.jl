@@ -53,11 +53,13 @@ function I0(P, h1, h2, h3, h4)
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
                     end
                     Phi3 = 0.5 / R1 * log((R1 + R)^2 / hh1)
-                    if h1 < 1e-9
-                        I = Phi1/6 + 1/2 * h4^2 * (
-                            (P^2 * log((P + R)^2 * (R1 + R)^2 / (hh * hh1)) * 
-                            1 / (h4^2 * (P + R)^2) * (h4^2 * (2 + R/P) + 2 * (h1^2 + P^2 + R1 * R)) - log((P + R)^2 / hh)^2 ) / (4 * P^2 * (P^2 + h1^2))
-                        )/(Phi1 + Phi3) - 1/6 * h4^2 * 1 / (2 * hh * h4 + h4 * P^2 + (2*h4^2 + h1^2) * R) - 1/2 * h4 * Phi2
+                    if false# h1 < 1e-2 && h4 >= 1 I broke something here...
+                        R4 = sqrt(P^2 + h4^2)
+                        RR4 = P^2 + h4^2
+
+                        I = 1/6 * log((P + R4)/h4) / P + 1/4 * (h4/P)^2 * (
+                            1/R4 - 1/P * (log((P + R4)/h4)) - P * (1/(RR4 + P * R4) - 1/h4^2)
+                        ) - 1/18 * 1/(h4 + R4)^3 * (3 * (h4^2 + h4 * R4) + P) - 1/2 * 1/(h4 + R4)
                     else
                         I = (
                             (h1^2 - 3 * h4^2) * Phi1 - h4 * (3 * h1^2 - h4^2) * Phi2
