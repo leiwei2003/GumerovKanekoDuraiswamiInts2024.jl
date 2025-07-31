@@ -53,17 +53,26 @@ function I0(P, h1, h2, h3, h4)
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
                     end
                     Phi3 = 0.5 / R1 * log((R1 + R)^2 / hh1)
-                #=    if h1 < 1e-2 && h4 >= 1.0
+                    if abs(Phi3 - Phi1) < 1e-9 || abs(h4 * Phi2 - 1/(R + h4)) < 1e-9
                         R4 = sqrt(P^2 + h4^2)
                         RR4 = P^2 + h4^2
 
                         I = 1/6 * log((P + R4)/h4) / P + 1/4 * (h4/P)^2 * (
                             1/R4 - 1/P * log((P + R4)/h4) - P * (1/(RR4 + P * R4) - 1/h4^2)
                         ) - 1/18 * 1/(h4 + R4)^3 * (3 * (h4^2 + h4 * R4) + P) - 1/2 * 1/(h4 + R4) # fix for small h1
+                        #=
+                        RR = P^2 + h1^2 + h4^2
+                        RR1 = P^2 + h1^2
+
+                        I = Phi1/6 + 1/4 * h4^2/RR1 * (
+                            1/R - Phi1 - RR1/P * (1/(R * P + RR) - 1/hh)
+                        ) - 1/18 * h4^3/((h1 * P)^2 + (hh + h4 * R)^2)^2 * (
+                            (hh + h4 * R)^2 + P^2 * (h4^2 + h4 * R) + 2 * ((h4^2 + h4 * R)^2 - h1^4)
+                        ) - 1/2 * h4 * Phi2=#
                     else
-=#                        I = Phi1/6 + 1/2 * (h4/h1)^2 * (Phi3 - Phi1)
+                        I = Phi1/6 + 1/2 * (h4/h1)^2 * (Phi3 - Phi1)
                             + 1/6 * (h4/h1)^2 * (h4 * Phi2 - 1/(R + h4)) - 1/2 * h4 * Phi2 # Case 6
-                   # end
+                    end
                 elseif h2 > 0 # if h1 = h3 = 0 -> Case 7
                     h = sqrt(hh)
                     R2 = sqrt(P^2 + h2^2)

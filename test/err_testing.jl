@@ -96,7 +96,7 @@ function I6jlOld(P, h1, h4)
     return I
 end
 
-h4 = 100.0
+h4 = 10.0
 h3 = 0.0
 h2 = 0.0
 h1 = sqrt(2)/2000
@@ -107,9 +107,9 @@ I = I6jl(Float64(P), Float64(h1), Float64(h4))
 
 println("+++ Begin +++\n")
 
-for i in 0:50
-    h1 = 2^i*1e-12
-    h4 = 100.0
+for i in 0:25
+    h1 = 2^i*1e-5
+    h4 = h4
     P = P
     #
     h1 = BigFloat(h1)
@@ -117,8 +117,8 @@ for i in 0:50
     P = BigFloat(P)
     #
 
-    println("\nP = ", P, ", h4 = ", h4, ", h1 = ", h1)
-    println("I = ", I6jlNewer(P, h1, h4))
+    #println("\nP = ", P, ", h4 = ", h4, ", h1 = ", h1, " I = ", I6jlNewest(P, h1, h4))
+
 end
 
 println("\n\n", I6jl(P, sqrt(2)/2000, h4))
