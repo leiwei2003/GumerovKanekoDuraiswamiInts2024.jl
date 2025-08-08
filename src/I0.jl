@@ -33,6 +33,7 @@ function I0(P, h1, h2, h3, h4)
                             Phi2 = atan(h1 * P / (hh + h3 * R)) / (h1 * P)
                         end
                         Phi3 = 0.5 * hh1 / R1 * log((R1 + R)^2 / hh1)
+
                         I = ((h1^2 - h3^2) * Phi1 - 2 * h1^2 * h3 * Phi2 + Phi3) / (6 * h1^2) # Case 4
                     end
                 elseif h1^2 + h4^2 < zero2 * hh # if h1 = h4 = 0 -> Case 5
@@ -53,31 +54,57 @@ function I0(P, h1, h2, h3, h4)
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
                     end
                     Phi3 = 0.5 / R1 * log((R1 + R)^2 / hh1)
-                    if abs(Phi3 - Phi1) < 1e-9 || abs(h4 * Phi2 - 1/(R + h4)) < 1e-9
+
+                    RR = P^2 + h1^4 + h4^2
+                    RR1 = P^2 + h1^2
+
+                    if h1 < 1e-5 * h4 && h1 < P
+                        # doesn't *really* work
                         R4 = sqrt(P^2 + h4^2)
                         RR4 = P^2 + h4^2
 
                         I = 1/6 * log((P + R4)/h4) / P + 1/4 * (h4/P)^2 * (
                             1/R4 - 1/P * log((P + R4)/h4) - P * (1/(RR4 + P * R4) - 1/h4^2)
-                        ) - 1/18 * 1/(h4 + R4)^3 * (3 * (h4^2 + h4 * R4) + P) - 1/2 * 1/(h4 + R4) # fix for small h1
-                        #=
-                        RR = P^2 + h1^2 + h4^2
-                        RR1 = P^2 + h1^2
+                        ) - 1/18 * 1/(h4 + R4)^3 * (3 * (h4^2 + h4 * R4) + P) - 1/2 * 1/(h4 + R4)
+                    elseif false #h1 < 10 * P && h1 < h4 * 2 * (h1/h4)^2 < (P^2 + RR + P*R)/(RR1 + RR + 2*R1*R)
+                        Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
 
-                        I = Phi1/6 + 1/4 * h4^2/RR1 * (
-                            1/R - Phi1 - RR1/P * (1/(R * P + RR) - 1/hh)
-                        ) - 1/18 * h4^3/((h1 * P)^2 + (hh + h4 * R)^2)^2 * (
-                            (hh + h4 * R)^2 + P^2 * (h4^2 + h4 * R) + 2 * ((h4^2 + h4 * R)^2 - h1^4)
-                        ) - 1/2 * h4 * Phi2=#
+                        a = (R1+R)^2/hh1 # in Phi3
+                        b = (P+R)^2/hh # in Phi1
+
+                        #taylor series sqrt(1+x)
+                        sum = 0
+                        for i in 1:10
+                            sum += 2 / i * binomial(2 * (i - 1), i - 1) * (-(h1/P)^2 / 4)^i
+                        end
+                        TaylSqrt = sum
+
+                        Ref6 = 2/(h4^2 * (P + R)^2) * (h1^2 * (RR + R * R1) - h4^2 * P * R * TaylSqrt)
+                        
+                        #taylor series ln(1+x)
+                        sum = 0
+                        for i in 1:5
+                            sum -= (-1)^i * (Ref6)^i / i
+                        end
+                        RefLn = sum
+
+                        Var4 = 1 / (2 * hh * h4 + h4 * P^2 + (2*h4^2 + h1^2) * R)
+
+                        I = Phi1/6 + 1/2 * (h4/h1)^2 * (
+                            (P^2 * log(a*b) * RefLn - h1^2 * log(b)^2) / (4 * P^2 * (P^2 + h1^2)) # Phi3^2 - Phi1^2
+                        )/(Phi1 + Phi3) - 1/6 * h4^2 * Var4 - 1/2 * h4 * Phi2
                     else
-                        I = Phi1/6 + 1/2 * (h4/h1)^2 * (Phi3 - Phi1)
-                            + 1/6 * (h4/h1)^2 * (h4 * Phi2 - 1/(R + h4)) - 1/2 * h4 * Phi2 # Case 6
+                        I = (
+                            (h1^2 - 3 * h4^2) * Phi1 - h4 * (3 * h1^2 - h4^2) * Phi2
+                            + 3 * h4^2 * Phi3 - h4^2 / (R + h4)
+                            ) / (6 * h1^2) # Case 6 (NICHT umformen)
                     end
                 elseif h2 > 0 # if h1 = h3 = 0 -> Case 7
                     h = sqrt(hh)
                     R2 = sqrt(P^2 + h2^2)
                     Phi2 = atan(h2 * P / (hh + h4 * R)) / P
                     Phi4 = h4^2 / (h2 * P^2) * ((R2 / h2 * log((R2 + R) / h4) - log((h2 + h) / h4)))
+
                     I = (
                         (1 + 3 * h4^2 / h2^2) * Phi1 - 2 * (h4 / h2)^3 * Phi2 - 3 * Phi4 +
                         (2 * h4^2 - h2^2) / (h2^2 * (R + h))
