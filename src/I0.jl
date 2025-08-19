@@ -59,7 +59,6 @@ function I0(P, h1, h2, h3, h4)
                     RR1 = P^2 + h1^2
 
                     if h1 < 1e-5 * h4 && h1 < P
-                        # doesn't *really* work
                         R4 = sqrt(P^2 + h4^2)
                         RR4 = P^2 + h4^2
 
