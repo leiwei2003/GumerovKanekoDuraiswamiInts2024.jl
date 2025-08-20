@@ -24,13 +24,13 @@ function aprx(h4, P)
             ) - 1/18 * 1/(h4 + R4)^3 * (3 * (h4^2 + h4 * R4) + P) - 1/2 * 1/(h4 + R4)
 end
 
-H1 = BigFloat(0.001)
-H4 = BigFloat(0.1)
-Pp = BigFloat(0.001)
+H1 = BigFloat(1e-7)
+H4 = BigFloat(0.001)
+Pp = BigFloat(0.0001)
 
-for h in 0:3
-    for j in 0:3
-        for p in 0:3
+for h in 0:7
+    for j in 0:5
+        for p in 0:5
 
             h1 = H1 * 10^h
             h4 = H4 * 10^j

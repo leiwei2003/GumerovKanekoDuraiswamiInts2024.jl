@@ -44,8 +44,8 @@ Tan3 = -h4/3 * 1/(h4^2 + h4 * R4)^3 * (3 * (h4^2 + h4 * R4) + P) # bis h1 < 1e-3
 I1 = Phi1/6 + 1/2 * (h4/h1)^2 * (Phi3 - Phi1) + 1/6 * (h4/h1)^2 * (h4 * Phi2 - 1/(R + h4)) - 1/2 * h4 * Phi2
 
 # nicht weiter gekürzt, nur L'Hopital
-I2 = Phi1/6 + 1/4 * h4^2/(P * R1) * (
-        P/(R1 * R) - 1/2 * 1/R1 * log((P + R)^2/hh) - R1 * (1/(R * P + RR) - 1/hh)
+I2 = Phi1/6 + 1/4 * h4^2/RR1 * (
+        1/R - Phi1 - RR1/P * (1/(R * P + RR) - 1/hh)
     ) - 1/18 * h4^3/((h1 * P)^2 + (hh + h4 * R)^2)^2 * (
         (hh + h4 * R)^2 + P^2 * (h4^2 + h4 * R) + 2 * ((h4^2 + h4 * R)^2 - h1^4)
     ) - 1/2 * h4 * Phi2

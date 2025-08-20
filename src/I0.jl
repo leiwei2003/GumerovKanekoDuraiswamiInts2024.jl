@@ -65,7 +65,7 @@ function I0(P, h1, h2, h3, h4)
                         I = 1/6 * log((P + R4)/h4) / P + 1/4 * (h4/P)^2 * (
                             1/R4 - 1/P * log((P + R4)/h4) - P * (1/(RR4 + P * R4) - 1/h4^2)
                         ) - 1/18 * 1/(h4 + R4)^3 * (3 * (h4^2 + h4 * R4) + P) - 1/2 * 1/(h4 + R4)
-                    elseif false #h1 < 10 * P && h1 < h4 * 2 * (h1/h4)^2 < (P^2 + RR + P*R)/(RR1 + RR + 2*R1*R)
+                    elseif false # h1 < 10 * P && h1 < h4 * 2 * (h1/h4)^2 < (P^2 + RR + P*R)/(RR1 + RR + 2*R1*R)
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
 
                         a = (R1+R)^2/hh1 # in Phi3
@@ -104,10 +104,29 @@ function I0(P, h1, h2, h3, h4)
                     Phi2 = atan(h2 * P / (hh + h4 * R)) / P
                     Phi4 = h4^2 / (h2 * P^2) * ((R2 / h2 * log((R2 + R) / h4) - log((h2 + h) / h4)))
 
-                    I = (
-                        (1 + 3 * h4^2 / h2^2) * Phi1 - 2 * (h4 / h2)^3 * Phi2 - 3 * Phi4 +
-                        (2 * h4^2 - h2^2) / (h2^2 * (R + h))
-                        ) / 6 # Case 7
+                    if h2 < 1e-2 * h4 && h2 < P
+                        R4 = sqrt(P^2 + h4^2)
+                        RR4 = P^2 + h4^2
+
+                        RR = P^2 + h2^2 + h4^2
+
+                        I = (
+                            1/P * log((P + R4)/h4)
+                            + 3/2 * h4^2/P^2 * (- 1/(P + R4) - P/h4^2 - 1/P * log((P + R4)/h4) + 2/h4)
+                            - 1/(R4 + h4) * (1 + h4/3 * (1/R4 - 1/(R4 + h4) * (4 + h4/R4 + 2/(R4 + h4) * P^2/h4)))
+                            ) / 6
+
+                        I = (
+                            1/P * log((P + R)/h)
+                            + 3/2 * h4^2/P^2 * (P * (1/(RR + P*R) - 1/h4^2) - 1/R - 1/P * log((P + R)/h) + 2/h4)
+                            - 1/(R + h) * (1 + h4/3 * (1/R - 1/(R + h) * (4 + h/R + 2/(R + h) * P^2/h4)))
+                            ) / 6    
+                    else
+                        I = (
+                            (1 + 3 * h4^2 / h2^2) * Phi1 - 2 * (h4 / h2)^3 * Phi2 - 3 * Phi4 +
+                            (2 * h4^2 - h2^2) / (h2^2 * (R + h))
+                            ) / 6 # Case 7
+                    end
                 else
                     I = 0 # no case detected
                 end

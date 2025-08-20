@@ -23,7 +23,7 @@ function I1(e1, a1, h2, h3, h4)::Float64
 
     na1 = norm(a1)
 
-    if h1^2 + h2^2 + h3^2 < 1e-30
+    if h3 == 100 && h2 + h1 < 1e-16
         p=1
     end
 
