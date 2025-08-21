@@ -23,7 +23,7 @@ function I1(e1, a1, h2, h3, h4)::Float64
 
     na1 = norm(a1)
 
-    if h3 == 100 && h2 + h1 < 1e-16
+    if h4 == 100 && h2 == 0.01 && abs(T(1) + s01) * na1 < 0.01
         p=1
     end
 
@@ -38,8 +38,8 @@ function I1(e1, a1, h2, h3, h4)::Float64
     end
 
     #debugging
-    println("I = ", I, "\n")
-    println("P1, P2 = ", [P1,P2])
+    println("I = ", I)
+    println("P1, P2 = ", [P1,P2], "\n")
 
     return I
 end

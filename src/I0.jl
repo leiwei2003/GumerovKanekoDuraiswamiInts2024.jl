@@ -56,14 +56,13 @@ function I0(P, h1, h2, h3, h4)
                     Phi3 = 0.5 / R1 * log((R1 + R)^2 / hh1)
 
                     RR = P^2 + h1^4 + h4^2
-                    RR1 = P^2 + h1^2
 
                     if h1 < 1e-5 * h4 && h1 < P
                         R4 = sqrt(P^2 + h4^2)
                         RR4 = P^2 + h4^2
 
                         I = 1/6 * log((P + R4)/h4) / P + 1/4 * (h4/P)^2 * (
-                            1/R4 - 1/P * log((P + R4)/h4) - P * (1/(RR4 + P * R4) - 1/h4^2)
+                            1/(P + R4) - 1/P * log((P + R4)/h4) - P/h4^2
                         ) - 1/18 * 1/(h4 + R4)^3 * (3 * (h4^2 + h4 * R4) + P) - 1/2 * 1/(h4 + R4)
                     elseif false # h1 < 10 * P && h1 < h4 * 2 * (h1/h4)^2 < (P^2 + RR + P*R)/(RR1 + RR + 2*R1*R)
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
@@ -99,16 +98,13 @@ function I0(P, h1, h2, h3, h4)
                             ) / (6 * h1^2) # Case 6 (NICHT umformen)
                     end
                 elseif h2 > 0 # if h1 = h3 = 0 -> Case 7
-                    h = sqrt(hh)
+                    h = sqrt(h2^2 + h4^2)
                     R2 = sqrt(P^2 + h2^2)
                     Phi2 = atan(h2 * P / (hh + h4 * R)) / P
                     Phi4 = h4^2 / (h2 * P^2) * ((R2 / h2 * log((R2 + R) / h4) - log((h2 + h) / h4)))
 
-                    if h2 < 1e-4 * h4 && h2 <= P
+                    if h2 < 1e-4 * h4
                         R4 = sqrt(P^2 + h4^2)
-                        RR4 = P^2 + h4^2
-
-                        RR = P^2 + h2^2 + h4^2
 
                         I = (
                             1/P * log((P + R4)/h4)
