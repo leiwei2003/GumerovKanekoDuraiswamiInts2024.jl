@@ -16,7 +16,7 @@ function I0(P, h1, h2, h3, h4)
         else
             if h3^2 + h4^2 < zero2 * hh # if h3 = h4 = 0 -> Case 2 or 3
                 if h1 * P == 0
-                    Phi2 = 1 / (hh + h2 * R) # for case 2 (h1 = 0)
+                    Phi2 = 1/(hh + h2 * R) # for case 2 (h1 = 0)
                 else
                     Phi2 = atan(h1 * P / (hh + h2 * R)) / (h1 * P) # for case 3
                 end
@@ -28,11 +28,11 @@ function I0(P, h1, h2, h3, h4)
                         I = (Phi1 - 2 / (h3 + R)) / 6 # limit of case 4 as h1 approaches 0
                     else
                         if h1 * P < zerotol
-                            Phi2 = 1 / (hh + h3 * R) # catch P = 0
+                            Phi2 = 1/(hh + h3 * R) # catch P = 0
                         else
                             Phi2 = atan(h1 * P / (hh + h3 * R)) / (h1 * P)
                         end
-                        Phi3 = 0.5 * hh1 / R1 * log((R1 + R)^2 / hh1)
+                        Phi3 = 0.5 * hh1/R1 * log((R1 + R)^2/hh1)
 
                         I = ((h1^2 - h3^2) * Phi1 - 2 * h1^2 * h3 * Phi2 + Phi3) / (6 * h1^2) # Case 4
                     end
@@ -42,14 +42,14 @@ function I0(P, h1, h2, h3, h4)
                     if h3 < zerotol
                         Phi4 = 0 # catch h3 = 0
                     else
-                        Phi4 = h3^2 / (h2 * P^2) * ((R2 / h2 * log((R2 + R) / h3) - log((h2 + h) / h3)))
+                        Phi4 = h3^2/(h2 * P^2) * ((R2/h2 * log((R2 + R)/h3) - log((h2 + h)/h3)))
                     end
-                    I = (hh / h2^2 * Phi1 - 1 / (R + h) - Phi4) / 6 # Case 5
+                    I = (hh/h2^2 * Phi1 - 1/(R + h) - Phi4) / 6 # Case 5
                 # At this stage h4 =/= 0 and h3 = 0.
                 # Pick the last case so that one doesn't divide by 0.
                 elseif h1 > 0 # if h2 = h3 = 0 -> Case 6
                     if h1 * P < zerotol
-                        Phi2 = 1 / (hh + h4 * R) # catch P = 0
+                        Phi2 = 1/(hh + h4 * R) # catch P = 0
                     else
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
                     end
@@ -104,7 +104,7 @@ function I0(P, h1, h2, h3, h4)
                     Phi2 = atan(h2 * P / (hh + h4 * R)) / P
                     Phi4 = h4^2 / (h2 * P^2) * ((R2 / h2 * log((R2 + R) / h4) - log((h2 + h) / h4)))
 
-                    if h2 < 1e-2 * h4 && h2 < P
+                    if h2 < 1e-4 * h4 && h2 <= P
                         R4 = sqrt(P^2 + h4^2)
                         RR4 = P^2 + h4^2
 
@@ -112,15 +112,9 @@ function I0(P, h1, h2, h3, h4)
 
                         I = (
                             1/P * log((P + R4)/h4)
-                            + 3/2 * h4^2/P^2 * (- 1/(P + R4) - P/h4^2 - 1/P * log((P + R4)/h4) + 2/h4)
-                            - 1/(R4 + h4) * (1 + h4/3 * (1/R4 - 1/(R4 + h4) * (4 + h4/R4 + 2/(R4 + h4) * P^2/h4)))
+                            - 3/2 * h4^2/P^2 * (1/(P + R4) + P/h4^2 + 1/P * log((P + R4)/h4) - 2/h4)
+                            + 1/(R4 + h4)^2 * (2/3 * P^2/(R4 + h4) - R4)
                             ) / 6
-
-                        I = (
-                            1/P * log((P + R)/h)
-                            + 3/2 * h4^2/P^2 * (P * (1/(RR + P*R) - 1/h4^2) - 1/R - 1/P * log((P + R)/h) + 2/h4)
-                            - 1/(R + h) * (1 + h4/3 * (1/R - 1/(R + h) * (4 + h/R + 2/(R + h) * P^2/h4)))
-                            ) / 6    
                     else
                         I = (
                             (1 + 3 * h4^2 / h2^2) * Phi1 - 2 * (h4 / h2)^3 * Phi2 - 3 * Phi4 +

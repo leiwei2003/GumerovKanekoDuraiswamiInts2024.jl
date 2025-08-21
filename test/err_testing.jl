@@ -96,28 +96,55 @@ function I6jlOld(P, h1, h4)
     return I
 end
 
-h4 = 10.0
+h4 = 100.0
 h3 = 0.0
-h2 = 0.0
-h1 = sqrt(2)/2000
+h2 = sqrt(2)/2000
+h1 = 0.0
 h1 = 4.9065389333867974e-18
-P = 0.01131370849898476
+P = 0.01
 
 I = I6jl(Float64(P), Float64(h1), Float64(h4))
+
+function I7jlOld(h2, h4, P)
+
+    hh = h2^2 + h4^2
+    h = sqrt(h2^2 + h4^2)
+    R = sqrt(P^2 + hh)
+    R2 = sqrt(P^2 + h2^2)
+    
+    Phi1 = 1/2 * log((P + R)^2 / hh) / P
+    Phi4 = h4^2 / (h2 * P^2) * ((R2 / h2 * log((R2 + R) / h4) - log((h2 + h) / h4)))
+
+    return (
+            (1 + 3 * h4^2 / h2^2) * Phi1 - 2 * (h4 / h2)^3 * Phi2 - 3 * Phi4 +
+            (2 * h4^2 - h2^2) / (h2^2 * (R + h))
+            ) / 6
+end
+
+function I7jlNew(h4, P)
+
+    R4 = sqrt(P^2 + h4^2)
+
+    return (
+            1/P * log((P + R4)/h4) # Phi1 auch gut :)
+            - 3/2 * h4^2/P^2 * (1/(P + R4) + P/h4^2 + 1/P * log((P + R4)/h4) - 2/h4) # yay
+            - 1/(R4 + h4) * (1 + h4/3 * (1/R4 - 1/(R4 + h4) * (4 + h4/R4 + 2/(R4 + h4) * P^2/h4))) # Phi2 gut :)
+            )/6
+end
 
 println("+++ Begin +++\n")
 
 for i in 0:25
-    h1 = 2^i*1e-5
+    h2 = 2^i*1e-5
     h4 = h4
     P = P
     #
-    h1 = BigFloat(h1)
+    h1 = BigFloat(h2)
     h4 = BigFloat(h4)
     P = BigFloat(P)
     #
 
-    #println("\nP = ", P, ", h4 = ", h4, ", h1 = ", h1, " I = ", I6jlNewest(P, h1, h4))
+    println("\nP = ", P, ", h4 = ", h4, ", h1 = ", h1, " I = ", I7jlOld(P, h2, h4))
 
 end
 
