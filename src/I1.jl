@@ -7,9 +7,17 @@ function I1(e1, a1, h2, h3, h4)::Float64
     h1, s01 = GSorthogonalization_expan(e1, a1)
     s01 = s01[1]
 
+    #=debug: BigFloat
+    h1 = BigFloat(h1)
+    h2 = BigFloat(h2)
+    h3 = BigFloat(h3)
+    h4 = BigFloat(h4)
+    s01 = BigFloat(s01)
+=#
     #debugging
-    println("h = ", [h4,h3,h2,h1])
-   #     println("a1 = ", norm(a1))
+    #println("h = ", [h4,h3,h2,h1])
+    #println("a1 = ", norm(a1))
+    #println("s01 = ", s01)
 
     #making the smallest two h zero
     h_all = [h1, h2, h3, h4]
@@ -23,23 +31,24 @@ function I1(e1, a1, h2, h3, h4)::Float64
 
     na1 = norm(a1)
 
-    if h4 == 100 && h2 == 0.01 && abs(T(1) + s01) * na1 < 0.01
+    #debugging
+    if h1 + h2 + h3 < 1e-15
         p=1
     end
 
     I = T(0)
     P1 = abs(T(1) + s01) * na1
     P2 = abs(s01) * na1
-    if abs(T(1) + s01) > zerotol
+    if abs(T(1) + s01) > 1e4 * zerotol#test
         I += (T(1) + s01) * I0(P1, h1, h2, h3, h4)
     end
-    if abs(s01) > zerotol
+    if abs(s01) > 1e4 * zerotol
         I -= s01 * I0(P2, h1, h2, h3, h4)
     end
 
     #debugging
-    println("I = ", I)
-    println("P1, P2 = ", [P1,P2], "\n")
+    #println("I = ", I)
+    #println("P1, P2 = ", [P1,P2], "\n")
 
     return I
 end

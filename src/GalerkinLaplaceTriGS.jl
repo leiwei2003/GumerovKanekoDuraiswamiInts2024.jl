@@ -5,6 +5,15 @@ function GalerkinLaplaceTriGS(x1, x2, x3, y1, y2, y3; L_output=1, Md_output=0)
 
     T = promote_type(eltype(x1), eltype(x2), eltype(x3), eltype(y1), eltype(y2), eltype(y3))
 
+    #=debugging
+    x1 = BigFloat.(x1)
+    x2 = BigFloat.(x2)
+    x3 = BigFloat.(x3)
+    y1 = BigFloat.(y1)
+    y2 = BigFloat.(y2)
+    y3 = BigFloat.(y3)
+    =#
+
     #Triangle transformation
     # Define the edge vectors
     lx1 = x2 - x1

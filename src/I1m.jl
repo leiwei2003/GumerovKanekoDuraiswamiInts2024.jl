@@ -1,4 +1,4 @@
-function I1m(e1, a1, h2, h3, h4)::Float64
+function I1m(e1, a1, h2, h3, h4)::BigFloat#Float64
     #evaluation of 1D integral
     #the a passed down here should have 1 vector in the format of Vector{Vector{Float64}}
 

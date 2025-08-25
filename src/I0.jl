@@ -25,7 +25,7 @@ function I0(P, h1, h2, h3, h4)
                 R1 = sqrt(P^2 + h1^2)
                 if h2^2 + h4^2 < zero2 * hh # if h2 = h4 = 0 -> Case 4
                     if h1 < zerotol # catch h1 = 0
-                        I = (Phi1 - 2 / (h3 + R)) / 6 # limit of case 4 as h1 approaches 0
+                        I = (Phi1 - 2/(h3 + R)) / 6 # limit of case 4 as h1 approaches 0
                     else
                         if h1 * P < zerotol
                             Phi2 = 1/(hh + h3 * R) # catch P = 0
@@ -37,14 +37,23 @@ function I0(P, h1, h2, h3, h4)
                         I = ((h1^2 - h3^2) * Phi1 - 2 * h1^2 * h3 * Phi2 + Phi3) / (6 * h1^2) # Case 4
                     end
                 elseif h1^2 + h4^2 < zero2 * hh # if h1 = h4 = 0 -> Case 5
+                if h2 < 1e-9 * h3 # catch h2 = 0
+                    R3 = sqrt(P^2 + h3^2)
+                    # vorrübergehende Lösung (Geltungsbereich überprüfen)
+                    I = (
+                        1/P * log((P + R3)/h3) - 1/(R3 + h3)
+                        - 1/2 * (h3/P)^2 * (2*h3 + 1/(P + R3) + 1/P * log((P + R3)/h3) + P/h3^2 * (P + R3))
+                        )/6
+                else
                     h = sqrt(hh)
                     R2 = sqrt(P^2 + h2^2)
                     if h3 < zerotol
                         Phi4 = 0 # catch h3 = 0
                     else
-                        Phi4 = h3^2/(h2 * P^2) * ((R2/h2 * log((R2 + R)/h3) - log((h2 + h)/h3)))
+                        Phi4 = 1/P^2 * (h3/h2)^2 * ((R2 * log((R2 + R)/h3) - h2 * log((h2 + h)/h3)))
                     end
-                    I = (hh/h2^2 * Phi1 - 1/(R + h) - Phi4) / 6 # Case 5
+                    I = ((1 + (h3/h2)^2) * Phi1 - 1/(R + h) - Phi4) / 6 # Case 5
+                end
                 # At this stage h4 =/= 0 and h3 = 0.
                 # Pick the last case so that one doesn't divide by 0.
                 elseif h1 > 0 # if h2 = h3 = 0 -> Case 6
@@ -57,14 +66,13 @@ function I0(P, h1, h2, h3, h4)
 
                     RR = P^2 + h1^4 + h4^2
 
-                    if h1 < 1e-5 * h4 && h1 < P
+                    if h1 < 1e-5 * h4 #&& h1 < P
                         R4 = sqrt(P^2 + h4^2)
-                        RR4 = P^2 + h4^2
 
                         I = 1/6 * log((P + R4)/h4) / P + 1/4 * (h4/P)^2 * (
-                            1/(P + R4) - 1/P * log((P + R4)/h4) - P/h4^2
+                            1/(P + R4) - 1/P * log((P + R4)/h4) + P/h4^2
                         ) - 1/18 * 1/(h4 + R4)^3 * (3 * (h4^2 + h4 * R4) + P) - 1/2 * 1/(h4 + R4)
-                    elseif false # h1 < 10 * P && h1 < h4 * 2 * (h1/h4)^2 < (P^2 + RR + P*R)/(RR1 + RR + 2*R1*R)
+                    elseif false #h1 < 1e-5 * h4 
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
 
                         a = (R1+R)^2/hh1 # in Phi3
@@ -123,8 +131,10 @@ function I0(P, h1, h2, h3, h4)
             end
         end
     end
- #   I = 2
-#@infiltrate true
+
+    #debugging
+    #println("I = ", I)
+
     return I
 
 end
