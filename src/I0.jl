@@ -43,17 +43,17 @@ function I0(P, h1, h2, h3, h4)
                         I = ((h1^2 - h3^2) * Phi1 - 2 * h1^2 * h3 * Phi2 + Phi3) / (6 * h1^2) # Case 4
                     end
                 elseif h1^2 + h4^2 < zero2 * hh # if h1 = h4 = 0 -> Case 5
-                if h2 < 1e-4 * h3 # catch h2 = 0
+                if h2 < 1e-3 * h3 # catch h2 = 0
                     R3 = sqrt(P^2 + h3^2)
-                    # falsch lol
+
                     I = (
-                        1/P * log((P + R3)/h3) - 1/(R3 + h3)
-                        - 1/2 * (h3/P)^2 * (2*h3 + 1/(P + R3) + 1/P * log((P + R3)/h3) + P/h3^2 * (P + R3))
+                        1/P * (1 - 1/2 * (h3/P)^2) * log((P + R3)/h3) - 1/(R3 + h3)
+                        - 1/2 * 1/P^2 * (h3^2/(P + R3) + P - 2*h3)
                         ) / 6
                 else
                     h = sqrt(hh)
                     R2 = sqrt(P^2 + h2^2)
-                    if h3 < zerotol
+                    if h3 < zerotol # definitely check this!!
                         Phi4 = 0 # catch h3 = 0
                     else
                         Phi4 = 1/P^2 * (h3/h2)^2 * ((R2 * log((R2 + R)/h3) - h2 * log((h2 + h)/h3)))
