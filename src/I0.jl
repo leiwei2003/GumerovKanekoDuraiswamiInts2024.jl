@@ -53,7 +53,7 @@ function I0(P, h1, h2, h3, h4)
                 else
                     h = sqrt(hh)
                     R2 = sqrt(P^2 + h2^2)
-                    if h3 < zerotol # definitely check this!!
+                    if h3 < zerotol
                         Phi4 = 0 # catch h3 = 0
                     else
                         Phi4 = 1/P^2 * (h3/h2)^2 * ((R2 * log((R2 + R)/h3) - h2 * log((h2 + h)/h3)))
@@ -78,7 +78,7 @@ function I0(P, h1, h2, h3, h4)
                         I = 1/6 * log((P + R4)/h4) / P + 1/4 * (h4/P)^2 * (
                             1/(P + R4) - 1/P * log((P + R4)/h4) + P/h4^2
                         ) - 1/18 * 1/(h4 + R4)^3 * (3 * (h4^2 + h4 * R4) + P) - 1/2 * 1/(h4 + R4)
-                    elseif false #h1 < 0.1 * P
+                    elseif h1 < 5e-5 * h4 #&& h1 < 0.1 * P
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
 
                         a = (R1+R)^2/hh1 # in Phi3

@@ -15,7 +15,7 @@ function I1(e1, a1, h2, h3, h4)::Float64
     s01 = BigFloat(s01)
 =#
     #debugging
-    #println("h = ", [h4,h3,h2,h1])
+    println("h = ", [h4,h3,h2,h1])
     #println("a1 = ", norm(a1))
     #println("s01 = ", s01)
 
@@ -39,10 +39,10 @@ function I1(e1, a1, h2, h3, h4)::Float64
     I = T(0)
     P1 = abs(T(1) + s01) * na1
     P2 = abs(s01) * na1
-    if abs(T(1) + s01) > 1e4 * zerotol#test
+    if abs(T(1) + s01) > zerotol
         I += (T(1) + s01) * I0(P1, h1, h2, h3, h4)
     end
-    if abs(s01) > 1e4 * zerotol
+    if abs(s01) > zerotol
         I -= s01 * I0(P2, h1, h2, h3, h4)
     end
 
