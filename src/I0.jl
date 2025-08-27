@@ -72,13 +72,13 @@ function I0(P, h1, h2, h3, h4)
 
                     RR = P^2 + h1^4 + h4^2
 
-                    if h1 < 1e-5 * h4 #&& h1 < P
+                    if h1 < 1e-5 * h4 && P < 1e-2 * h4
                         R4 = sqrt(P^2 + h4^2)
 
                         I = 1/6 * log((P + R4)/h4) / P + 1/4 * (h4/P)^2 * (
                             1/(P + R4) - 1/P * log((P + R4)/h4) + P/h4^2
                         ) - 1/18 * 1/(h4 + R4)^3 * (3 * (h4^2 + h4 * R4) + P) - 1/2 * 1/(h4 + R4)
-                    elseif h1 < 5e-5 * h4 #&& h1 < 0.1 * P
+                    elseif h1 < 5e-5 * h4 && h1 < P
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
 
                         a = (R1+R)^2/hh1 # in Phi3
