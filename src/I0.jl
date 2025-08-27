@@ -24,7 +24,7 @@ function I0(P, h1, h2, h3, h4)
             else
                 R1 = sqrt(P^2 + h1^2)
                 if h2^2 + h4^2 < zero2 * hh # if h2 = h4 = 0 -> Case 4
-                    if h1 < 1e-4 * h3 # catch h1 = 0
+                    if h1 < 1e-4 * h3 # fix for small h1
                         RR = P^2 + h1^2 + h3^2
                         RR1 = P^2 + h1^2
 
@@ -43,7 +43,7 @@ function I0(P, h1, h2, h3, h4)
                         I = ((h1^2 - h3^2) * Phi1 - 2 * h1^2 * h3 * Phi2 + Phi3) / (6 * h1^2) # Case 4
                     end
                 elseif h1^2 + h4^2 < zero2 * hh # if h1 = h4 = 0 -> Case 5
-                if h2 < 1e-3 * h3 # catch h2 = 0
+                if h2 < 1e-3 * h3 # fix for small h2
                     R3 = sqrt(P^2 + h3^2)
 
                     I = (
@@ -72,7 +72,7 @@ function I0(P, h1, h2, h3, h4)
 
                     RR = P^2 + h1^4 + h4^2
 
-                    if h1 < 1e-5 * h4 && P < 1e-2 * h4
+                    if h1 < 1e-5 * h4 && P < 1e-2 * h4 # fix for small h1
                         R4 = sqrt(P^2 + h4^2)
 
                         I = 1/6 * log((P + R4)/h4) / P + 1/4 * (h4/P)^2 * (
@@ -117,7 +117,7 @@ function I0(P, h1, h2, h3, h4)
                     Phi2 = atan(h2 * P / (hh + h4 * R)) / P
                     Phi4 = h4^2 / (h2 * P^2) * ((R2 / h2 * log((R2 + R) / h4) - log((h2 + h) / h4)))
 
-                    if h2 < 1e-4 * h4
+                    if h2 < 1e-4 * h4 # fix for small h2
                         R4 = sqrt(P^2 + h4^2)
 
                         I = (
