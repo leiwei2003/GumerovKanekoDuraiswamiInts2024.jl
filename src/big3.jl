@@ -1,7 +1,7 @@
 
-h1 = 2e-15
+h1 = 1e-3
 h4 = 100
-P = 0.008
+P = 1e-2
 #=
 h1 = BigFloat(h1)
 h4 = BigFloat(h4)

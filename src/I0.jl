@@ -72,7 +72,7 @@ function I0(P, h1, h2, h3, h4)
 
                     RR = P^2 + h1^4 + h4^2
 
-                    if h1 < 1e-5 * h4 && P < 1e-2 * h4 # fix for small h1
+                    if h1 < 1e-5 * h4 #&& 1e-4 < P/h4 < 1e-2 # fix for small h1
                         R4 = sqrt(P^2 + h4^2)
 
                         I = 1/6 * log((P + R4)/h4) / P + 1/4 * (h4/P)^2 * (
