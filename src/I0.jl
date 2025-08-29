@@ -72,13 +72,13 @@ function I0(P, h1, h2, h3, h4)
 
                     RR = P^2 + h1^4 + h4^2
 
-                    if h1 < 1e-5 * h4 #&& 1e-4 < P/h4 < 1e-2 # fix for small h1
+                    if false#h1 < 1e-5 * h4 #&& 1e-4 < P/h4 < 1e-2 # fix for small h1
                         R4 = sqrt(P^2 + h4^2)
 
                         I = 1/6 * log((P + R4)/h4) / P + 1/4 * (h4/P)^2 * (
                             1/(P + R4) - 1/P * log((P + R4)/h4) + P/h4^2
                         ) - 1/18 * 1/(h4 + R4)^3 * (3 * (h4^2 + h4 * R4) + P) - 1/2 * 1/(h4 + R4)
-                    elseif h1 < 5e-5 * h4 && h1 < P
+                    elseif false#h1 < 5e-5 * h4 && h1 < P
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
 
                         a = (R1+R)^2/hh1 # in Phi3
@@ -86,7 +86,7 @@ function I0(P, h1, h2, h3, h4)
 
                         #taylor series sqrt(1+x)
                         sum = 0
-                        for i in 1:10
+                        for i in 1:20
                             sum += 2 / i * binomial(2 * (i - 1), i - 1) * (-(h1/P)^2 / 4)^i
                         end
                         TaylSqrt = sum
@@ -95,7 +95,7 @@ function I0(P, h1, h2, h3, h4)
                         
                         #taylor series ln(1+x)
                         sum = 0
-                        for i in 1:5
+                        for i in 1:10
                             sum -= (-1)^i * (Ref6)^i / i
                         end
                         RefLn = sum
