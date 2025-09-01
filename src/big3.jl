@@ -1,7 +1,7 @@
 
 h1 = 1e-12
 h4 = 100
-P = 0.01
+P = 1e-2
 #
 h1 = BigFloat(h1)
 h4 = BigFloat(h4)
@@ -56,15 +56,33 @@ I3 = 1/6 * log((P + R4)/h4) / P + 1/4 * (h4/P)^2 * (
     ) - 1/18 * 1/(h4 + R4)^3 * (3 * (h4^2 + h4 * R4) + P) - 1/2 * 1/(h4 + R4)
 
 for i in 0:26
-    h = 2^BigFloat(i) * 1e-6
+    h1 = 2^BigFloat(i) * 1e-6
 
     P = 0.01
-    R4 = sqrt(P^2 + h4^2)
-    RR4 = P^2 + h4^2
+    h4 = 100
+    
+    hh = h1^2 + h4^2
+hh1 = h4^2
+R = sqrt(P^2 + hh)
+R1 = sqrt(P^2 + h1^2)
+R4 = sqrt(P^2 + h4^2)
+RR = P^2 + hh
+RR1 = P^2 + h1^2
+RR4 = P^2 + h4^2
+    
+Phi1 = 1/2 / P * log((P + R)^2 / hh)
+Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
+Phi3 = 1/2 / R1 * log((R1 + R)^2 / hh1)
 
-    I3 = 1/6 * log((P + R4)/h4) / P + 1/4 * (h4/P)^2 * (
-        1/R4 - 1/P * (log((P + R4)/h4)) - P * (1/(RR4 + P * R4) - 1/h4^2)
-    ) - 1/18 * 1/(h4 + R4)^3 * (3 * (h4^2 + h4 * R4) + P) - 1/2 * 1/(h4 + R4)
-    println("h = ", h, ", I6 = ", I3)
+I = (
+    (h1^2 - 3 * h4^2) * Phi1 - h4 * (3 * h1^2 - h4^2) * Phi2
+    + 3 * h4^2 * Phi3 - h4^2 / (R + h4)
+    ) / (6 * h1^2)
+
+I3 = 1/6 * log((P + R4)/h4) / P + 1/4 * (h4/P)^2 * (
+    1/R4 - 1/P * (log((P + R4)/h4)) - P * (1/(RR4 + P * R4) - 1/h4^2)
+) - 1/18 * 1/(h4 + R4)^3 * (3 * (h4^2 + h4 * R4) + P) - 1/2 * 1/(h4 + R4)
+
+    println("h = ", h1, ", I6 = ", I)
 end
     
