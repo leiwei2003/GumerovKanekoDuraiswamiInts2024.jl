@@ -15,7 +15,8 @@ function I1(e1, a1, h2, h3, h4)::Float64
     s01 = BigFloat(s01)
     =#
     #debugging
-    println("h = ", [h4,h3,h2,h1])
+    println("\nh = ", [h4,h3,h2,h1])
+    println("P = ", [abs(T(1) + s01) * norm(a1), abs(s01) * norm(a1)])
     #println("a1 = ", norm(a1))
     #println("s01 = ", s01)
 
