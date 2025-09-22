@@ -7,13 +7,13 @@ function I1(e1, a1, h2, h3, h4)::Float64
     h1, s01 = GSorthogonalization_expan(e1, a1)
     s01 = s01[1]
 
-    #=debug: BigFloat
+    #debug: BigFloat
     h1 = BigFloat(h1)
     h2 = BigFloat(h2)
     h3 = BigFloat(h3)
     h4 = BigFloat(h4)
     s01 = BigFloat(s01)
-    =#
+    #
     #debugging
     println("\nh = ", [h4,h3,h2,h1])
     println("P = ", [abs(T(1) + s01) * norm(a1), abs(s01) * norm(a1)])

@@ -72,9 +72,9 @@ function I0(P, h1, h2, h3, h4)
 
                     RR = P^2 + h1^4 + h4^2
 
-                    if h1 <= 1e-2 * h4 && P <= 1e-2 * h4
+                    if false#h1 < 1.1e-2 * h4 && P < 1.1e-2 * h4
                         I = 1/24 * 1/h4
-                    elseif h1 < 1e-5 * h4 && 1e-4 < P/h4 < 1e-2 # fix for small h1
+                    elseif false#h1 < 1e-5 * h4 && 1e-4 < P/h4 < 1e-2 # fix for small h1
 
                         R4 = sqrt(P^2 + h4^2)
 
@@ -90,7 +90,7 @@ function I0(P, h1, h2, h3, h4)
                         I = (1/6 * 1/P - 1/4 * h4^2/P^3) * log((P + R)/h4) + 1/4 * 1/R * ((h4/P)^2 + (1 + R)/(P + R)) -
                             1/18 * 1/(R + h4)^3 * (P + 3 * h4 * (R + h4) - 9 * (R + h4)^2)
 
-                    elseif h1 < 5e-5 * h4 && h1 < P
+                    elseif false#h1 < 5e-5 * h4 && h1 < P
                         Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
 
                         a = (R1+R)^2/hh1 # in Phi3
@@ -129,9 +129,9 @@ function I0(P, h1, h2, h3, h4)
                     Phi2 = atan(h2 * P / (hh + h4 * R)) / P
                     Phi4 = h4^2 / (h2 * P^2) * ((R2 / h2 * log((R2 + R) / h4) - log((h2 + h) / h4)))
 
-                    if h2 <= 1e-2 * h4 && P <= 1e-2 * h4
+                    if false#h2 <= 1e-2 * h4 && P <= 1e-2 * h4
                         I = 1/24 * 1/h4
-                    elseif h2 < 1e-4 * h4 # fix for small h2
+                    elseif false#h2 < 1e-4 * h4 # fix for small h2
                         R4 = sqrt(P^2 + h4^2)
 
                         I = (
