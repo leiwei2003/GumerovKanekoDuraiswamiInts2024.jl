@@ -61,6 +61,9 @@ I4 = (1/6 - 1/4 * (h4/P)^2) * 1/P * log((P + R4)/h4) + 1/4 * 1/R4 * (1 + (h4/P)^
 I5 = 1/6 * 1/P * log((P + R4)/h4) + 1/4 * 1/R4 + 1/4 * (h4/P)^2 * (1/R4 - 1/P * log((P + R4)/h4)) -
     1/18 * 1/(R4 + h4)^2 * (9 * (R4 + h4) + 3 * h4 + P/(R4 + h4))
 
+I6 = (1/6 - 1/4 * (h4/P)^2) * 1/P * log((P + R4)/h4) + 1/4 * R4/P^2 -
+    1/18 * 1/(R4 + h4)^3 * (9 * (R4 + h4)^2 + 3 * h4 * (R4 + h4) + P)
+
 #
 for i in 0:5
     h4 = 10^BigFloat(i) * 1e-3
@@ -70,6 +73,7 @@ for i in 0:5
             P = 10^BigFloat(k) * 1e-3
 
             hh = h1^2 + h4^2
+            h = sqrt(h1^2 + h4^2)
             hh1 = h4^2
             R = sqrt(P^2 + hh)
             R1 = sqrt(P^2 + h1^2)
@@ -82,15 +86,12 @@ for i in 0:5
             Phi2 = atan(h1 * P / (hh + h4 * R)) / (h1 * P)
             Phi3 = 1/2 / R1 * log((R1 + R)^2 / hh1)
 
-            I = (
-                (h1^2 - 3 * h4^2) * Phi1 - h4 * (3 * h1^2 - h4^2) * Phi2
-                + 3 * h4^2 * Phi3 - h4^2 / (R + h4)
-                ) / (6 * h1^2)
-
-                println("h4 = ", h4)
-                println("h1 = ", h1)
-                println("P = ", P)
-                println("I = ", I)
+            I = 1/h * (1/6 + 3 * h4^2/(h + h4)) + (h4/h1)^2 * (3 * log((h1 + h)/h4) - 4/h)
+            
+            #=println("h4 = ", h4)
+            println("h1 = ", h1)
+            println("P = ", P)=#
+            println("I = ", I)
         end
     end
 end
